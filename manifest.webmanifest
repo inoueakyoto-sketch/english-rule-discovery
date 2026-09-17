@@ -1,10 +1,10 @@
 {
-  "name": "RULE FINDER｜英語のしくみ発見",
-  "short_name": "RULE FINDER",
+  "name": "DISCOVERY｜英語のしくみ発見",
+  "short_name": "DISCOVERY",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f2f4f8",
-  "theme_color": "#111a2b",
+  "background_color": "#edf1f3",
+  "theme_color": "#102126",
   "lang": "ja",
   "description": "文法のしくみを発見するコースと、フォニックスの考え方で単語の読みを発見するWORD CODEコースを備えた中学生向け英語学習アプリ。",
   "icons": [

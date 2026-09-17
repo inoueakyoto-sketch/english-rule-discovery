@@ -84,7 +84,7 @@
     els.guessOptions.innerHTML="";const choices=guessChoices(currentStage),correctId=choices[0][0];choices.sort(()=>Math.random()-.5).forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="phonics-guess-button";b.textContent=label;b.addEventListener("click",()=>revealDiscovery(id===correctId));els.guessOptions.appendChild(b);});refresh();scrollToTop();
   }
 
-  function revealDiscovery(correct){screen="reveal";hideCards();show(els.reveal);probeHeard=false;els.revealNext.disabled=true;els.revealCode.textContent=currentStage.pattern;els.revealTitle.textContent=correct?"見つけた。今の違いが読みの手がかり。":"予想してから確かめる。その流れでOK。";
+  function revealDiscovery(correct){screen="reveal";hideCards();show(els.reveal);probeHeard=false;els.revealNext.disabled=true;els.revealCode.textContent=currentStage.pattern;els.revealTitle.textContent=correct?"つながった。読みの手がかりを発見。":"予想したから、違いが見えた。ここが新しい手がかり。";
     const sound=currentStage.sound?`<div class="phonics-sound-result"><strong>${esc(currentStage.sound)}</strong><span>${esc(currentStage.kana)}</span></div>`:"";
     els.revealRule.innerHTML=`${sound}<p>${esc(currentStage.discover)}</p><small>${esc(currentStage.note)}</small>`;
     els.contrast.innerHTML="";(currentStage.contrast||[]).forEach(c=>{const row=document.createElement("div");row.className="phonics-contrast-row";row.innerHTML=`<button type="button" data-word="${esc(c.left)}">${esc(c.left)} <span>▶</span></button><b>→</b><button type="button" data-word="${esc(c.right)}">${esc(c.right)} <span>▶</span></button><small>${esc(c.caption)}</small>`;row.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>speak(b.dataset.word)));els.contrast.appendChild(row);});

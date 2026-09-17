@@ -208,7 +208,7 @@
     visible.forEach((stage,i)=>{
       const card=document.createElement("article");card.className="note-card"+(focusIndex===i?" is-focus":"");card.id=`note-stage-${i}`;
       const compare=stage.compare?`<div class="note-compare"><div class="note-example"><strong>例</strong> ${escapeHtml(stage.compare[0])}</div><div class="note-example"><strong>見方</strong> ${escapeHtml(stage.compare[1])}</div></div>`:"";
-      card.innerHTML=`<div class="note-card-head"><span class="note-badge">${escapeHtml(stage.label)}</span><div><h3>${escapeHtml(stage.discoveryTitle)}</h3><p>DISCOVERED RULE</p></div></div><p class="note-explain">${escapeHtml(stage.explain)}</p><div class="note-key">${escapeHtml(noteKeyText(stage))}</div>${compare}<div class="note-saved">気づきノートに保存済み</div>`;
+      card.innerHTML=`<div class="note-card-head"><span class="note-badge">${escapeHtml(stage.label)}</span><div><h3>${escapeHtml(stage.discoveryTitle)}</h3><p>DISCOVERED RULE</p></div></div><p class="note-explain">${escapeHtml(stage.explain)}</p><div class="note-key">${escapeHtml(noteKeyText(stage))}</div>${compare}<div class="note-saved">発見ログに保存済み</div>`;
       els.notebookList.appendChild(card);
     });
   }
@@ -550,13 +550,13 @@
 
   function showPracticeFeedback(correct,opts={}){
     hideMainCards();show(els.feedbackCard);els.feedbackCard.className="feedback-card"+(correct?"":" is-wrong");els.feedbackIcon.textContent=correct?"✓":"↺";
-    els.feedbackKicker.textContent=opts.retry?(correct?"RETRY CLEAR":"ONE MORE LOOK"):(correct?"CLEAR":"CHECK");
+    els.feedbackKicker.textContent=opts.retry?(correct?"FOUND AGAIN":"ONE MORE LOOK"):(correct?"FOUND":"CHECK");
     els.feedbackPattern.textContent=sentence.pattern==="M"?(sentence.basePattern+" + M"):sentence.pattern;
     if(opts.retry){
       els.feedbackTitle.textContent=correct?"気づきを見て、もう一度できた。":"まだ迷ってOK。見方をもう一度使ってみる。";
       els.feedbackBody.innerHTML=correct?"<p>同じ文でも、ルールを確認してから見ると整理できます。この問題はここでOK。</p>":"<p>答えを比べてから、必要ならもう一度「気づき」に戻れます。</p>";
     }else{
-      els.feedbackTitle.textContent=correct?(state.streak>=3?`${state.streak}問連続。見え方が安定してきた。`:"役割を見つけられた。"):"違ったところだけ、確認する。";
+      els.feedbackTitle.textContent=correct?(state.streak>=3?`${state.streak}回、同じしくみを見抜けた。`:"見つけた。今の見方で合っている。"):"違ったところだけ、確認する。";
       els.feedbackBody.innerHTML=correct
         ?`<p>この文の骨組みは <strong>${sentence.pattern==="M"?(sentence.basePattern+" ＋ M"):sentence.pattern}</strong>。今の見方で合っています。</p>`
         :`<p>全部をやり直す必要はありません。下の答えと比べて、<strong>違ったところだけ</strong>確認できます。</p>`;
@@ -570,12 +570,12 @@
 
   function showDiscoveryFeedback(stage){
     hideMainCards();show(els.feedbackCard);els.feedbackCard.className="feedback-card is-discovery";els.feedbackIcon.textContent=stage.newRole||"＋";
-    els.feedbackKicker.textContent="NEW RULE";els.feedbackPattern.textContent=stage.label;els.feedbackTitle.textContent="今までと少し違う。そこが新しいルール。";
+    els.feedbackKicker.textContent="DISCOVERED";els.feedbackPattern.textContent=stage.label;els.feedbackTitle.textContent="つながった。新しいしくみを発見。";
     const roleNote=stage.newRole
-      ?`<div class="discovery-box"><div class="unlock-line"><span class="unlock-role">${escapeHtml(stage.newRole)}</span><div class="unlock-copy"><b>${escapeHtml(C.roleLong[stage.newRole])} を発見</b><span>NEW ROLE UNLOCKED</span></div></div><div>${escapeHtml(stage.explain)}</div></div>`
-      :`<div class="discovery-box"><div class="unlock-line"><span class="unlock-role">＋</span><div class="unlock-copy"><b>${escapeHtml(stage.discoveryTitle)}</b><span>NEW PATTERN FOUND</span></div></div><div>${escapeHtml(stage.explain)}</div></div>`;
+      ?`<div class="discovery-box"><div class="unlock-line"><span class="unlock-role">${escapeHtml(stage.newRole)}</span><div class="unlock-copy"><b>${escapeHtml(C.roleLong[stage.newRole])} を発見</b><span>NEW CLUE CONNECTED</span></div></div><div>${escapeHtml(stage.explain)}</div></div>`
+      :`<div class="discovery-box"><div class="unlock-line"><span class="unlock-role">＋</span><div class="unlock-copy"><b>${escapeHtml(stage.discoveryTitle)}</b><span>NEW CLUE CONNECTED</span></div></div><div>${escapeHtml(stage.explain)}</div></div>`;
     const compare=stage.compare?`<div class="compare-table"><div class="compare-cell">${escapeHtml(stage.compare[0])}</div><div class="compare-arrow">↓ 比べる</div><div class="compare-cell">${escapeHtml(stage.compare[1])}</div></div>`:"";
-    els.feedbackBody.innerHTML=`<p>答えが合っていたかどうかより、<strong>「いつもと違う」部分に出会ったこと</strong>が今回のポイントです。</p>${roleNote}${compare}<div class="discovery-saved"><strong>気づきノートに保存しました。</strong> わからなくなったら、いつでも戻れます。</div>`;
+    els.feedbackBody.innerHTML=`<p>正解だったかより、<strong>「今までと違う」と気づけたこと</strong>が今回の発見です。</p>${roleNote}${compare}<div class="discovery-saved"><strong>発見ログに保存しました。</strong> わからなくなったら、いつでもこの気づきに戻れます。</div>`;
     renderAnswerStrip();hide(els.reviewRetryBtn);els.nextBtn.querySelector("span").textContent="次へ";nextAction="question";
   }
 
@@ -583,7 +583,7 @@
     haptic("tap");
     if(nextAction==="practiceNext"){
       if(practiceSession&&practiceSession.results.length>=PRACTICE_LENGTH) showPracticeSummary();else newPracticeQuestion();
-    }else if(nextAction==="complete") showComplete();else newDiscoveryQuestion();
+     }else if(nextAction==="complete") showComplete();else newDiscoveryQuestion();
     scrollTopSoft();
   }
 

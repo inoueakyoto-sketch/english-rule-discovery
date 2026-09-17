@@ -121,3 +121,167 @@ footer{text-align:center;padding:16px 0 calc(22px + var(--safe-bottom));font-siz
 .intro-course-alternative{margin-top:8px;min-height:52px;border:1px solid #cfe8e4;border-radius:14px;background:#f1faf9;text-decoration:none;color:#175e58;padding:9px 12px;display:flex;flex-direction:column;justify-content:center}.intro-course-alternative small{font-size:7px;letter-spacing:.12em;font-weight:950;color:#0f766e}.intro-course-alternative b{font-size:9px;line-height:1.55;margin-top:2px}
 .phonics-mode-memory{background:linear-gradient(135deg,#fff,#fff9f2);border-color:#f0e2cf}.phonics-mode-memory .mode-index,.phonics-mode-memory .mode-arrow{background:#fff0dc;color:#a25b13}.phonics-memory-stage .phonics-audio-primary{max-width:290px;margin-top:4px}.phonics-memory-meaning-area{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}.phonics-memory-meaning-area>span{display:block;font-size:7px;letter-spacing:.12em;font-weight:950;color:#a25b13}.phonics-memory-meaning-area>b{display:block;font-size:10px;margin:4px 0 9px}.phonics-memory-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}.phonics-memory-option{min-height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#344054;padding:8px;font-size:10px;font-weight:800}.phonics-memory-option:active{transform:scale(.985)}
 .intro-course-switch{margin:13px 0 16px}.intro-course-switch .course-switch-card{min-height:56px}
+
+/* =========================================================
+   v0.2.1 QUIET DISCOVERY DESIGN SYSTEM
+   Theme: 静かな発見 / discovery without childish gamification
+   ========================================================= */
+:root{
+  --bg:#edf1f3;
+  --surface:#fbfcfc;
+  --surface-2:#f4f7f7;
+  --ink:#122126;
+  --ink-2:#34484e;
+  --muted:#718087;
+  --line:#dbe3e5;
+  --line-strong:#c7d3d6;
+  --navy:#102126;
+  --accent:#167b80;
+  --accent-2:#239197;
+  --accent-soft:#e6f3f3;
+  --discovery:#b8863c;
+  --discovery-soft:#f7efe2;
+  --good:#167a61;
+  --good-soft:#e8f5f0;
+  --shadow:0 18px 54px rgba(16,33,38,.075);
+  --shadow-sm:0 7px 22px rgba(16,33,38,.055);
+}
+html{background:var(--bg)}
+body{
+  background:
+    radial-gradient(circle at 88% -5%,rgba(22,123,128,.08),transparent 28%),
+    radial-gradient(circle at 5% 65%,rgba(184,134,60,.045),transparent 30%),
+    linear-gradient(180deg,#f7f9f9 0,#eef2f3 42%,#e9eef0 100%);
+  color:var(--ink);
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:.34;
+  background-image:
+    linear-gradient(rgba(16,33,38,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(16,33,38,.025) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 72%);
+}
+.ambient{filter:blur(95px);opacity:.11}
+.ambient-one{background:#4da1a0}.ambient-two{background:#c9a36a}
+
+.app-header{padding-top:max(15px,env(safe-area-inset-top));padding-bottom:10px}
+.brand{position:relative;text-decoration:none;color:inherit}
+.brand-mark{
+  width:39px;height:39px;border-radius:13px;
+  background:linear-gradient(145deg,#102126,#17353b);color:#ecf9f8;
+  border:1px solid rgba(255,255,255,.08);box-shadow:0 9px 22px rgba(16,33,38,.18);
+  position:relative;overflow:hidden;font-size:14px;
+}
+.brand-mark::after{content:"";position:absolute;width:18px;height:1px;background:#77c8c7;right:-4px;bottom:8px;transform:rotate(-45deg);opacity:.7}
+.brand-copy strong{font-size:12px;letter-spacing:.17em}.brand-copy span{font-size:10px;color:#718087;letter-spacing:.02em}
+.icon-button,.notebook-button{background:rgba(251,252,252,.82);border-color:rgba(210,221,224,.9);box-shadow:0 7px 22px rgba(16,33,38,.05);backdrop-filter:blur(14px)}
+.notebook-button{color:#496168}.notebook-button:hover,.icon-button:hover{border-color:#b9ced1}
+
+.shell{max-width:700px}
+.top-status{margin-top:7px}.scope-pill,.streak-pill{background:rgba(251,252,252,.74);border-color:#dbe3e5;color:#65767c;box-shadow:none}.scope-pill .dot{background:#1b8d82;box-shadow:0 0 0 4px rgba(27,141,130,.075)}.streak-mark{color:#8d9ca2}.streak-pill b{color:#25383e}
+
+.rule-map-card,.hero-card,.home-card,.game-card,.feedback-card,.complete-card,.practice-complete-card,.principle-card,
+.learning-card,.challenge-intro-card,.challenge-play-card,.challenge-feedback-card,.challenge-complete-card,.phonics-card,.phonics-progress-card{
+  border-color:#dbe3e5;background:rgba(251,252,252,.955);box-shadow:var(--shadow);
+}
+.rule-map-card{position:relative;overflow:hidden}
+.rule-map-card::after{content:"";position:absolute;right:-28px;top:-35px;width:100px;height:100px;border:1px solid rgba(22,123,128,.08);border-radius:50%;pointer-events:none}
+.section-kicker{color:#167b80;letter-spacing:.16em;font-size:8px}
+.success-number{color:#102126}.success-number::after{content:" FOUND";color:#7b898e}
+.rule-map::before{background:linear-gradient(90deg,#dce5e7,#cbd8da,#dce5e7)}
+.rule-node.done .rule-dot{background:#102126;border-color:#102126;box-shadow:0 0 0 4px rgba(16,33,38,.055)}
+.rule-node.current .rule-dot{border-color:#167b80;color:#167b80;box-shadow:0 0 0 5px rgba(22,123,128,.095)}
+.rule-node.current b{color:#167b80}
+
+.home-card,.hero-card{position:relative;overflow:hidden}
+.home-card::before,.hero-card::before,.phonics-intro-card::before{
+  content:"";position:absolute;left:18px;top:0;width:50px;height:2px;background:linear-gradient(90deg,#167b80,#86c5c4);border-radius:0 0 2px 2px;
+}
+.home-intro h1{font-size:clamp(28px,7vw,40px);line-height:1.2;letter-spacing:-.045em;margin:8px 0 10px}.home-intro p{line-height:1.8}
+.course-switch-panel{gap:8px}
+.course-switch-card{position:relative;overflow:hidden;border-color:#d8e2e4;background:#f9fbfb;box-shadow:none}
+.course-switch-card::after{content:"";position:absolute;inset:auto -20px -28px auto;width:72px;height:72px;border:1px solid rgba(22,123,128,.08);border-radius:50%}
+.course-switch-card.active{background:linear-gradient(145deg,#102126,#16343a);border-color:#102126;color:#f6fbfb}
+.course-switch-card.active small{color:#8fb3b5}.course-switch-card.phonics-link{background:#eef7f6;border-color:#cfe2e1}.course-switch-card.phonics-link b{color:#176e70}
+
+.mode-stack{gap:8px}.mode-card{border-color:#dbe3e5;border-radius:18px;background:rgba(251,252,252,.9);box-shadow:none;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.mode-card:active{transform:scale(.988)}.mode-card:hover{border-color:#bfd0d3}
+.mode-index,.mode-arrow{box-shadow:none}
+.mode-discovery{background:linear-gradient(145deg,#102126,#16343a)!important;border-color:#102126!important;color:#fff!important}
+.mode-discovery .mode-copy small{color:#a9bec1!important}.mode-discovery .mode-index,.mode-discovery .mode-arrow{background:rgba(116,203,198,.12)!important;color:#8dd0cc!important}
+.mode-practice .mode-index,.mode-practice .mode-arrow{background:#eaf4f3;color:#167b80}
+.mode-learning .mode-index,.mode-learning .mode-arrow{background:#f4efe7;color:#9a6f32}
+.mode-challenge{background:linear-gradient(145deg,#f9f7f2,#fff)!important;border-color:#e5ddce!important}.mode-challenge .mode-index,.mode-challenge .mode-arrow{background:#f4ebdc;color:#9a6a2b}
+.mode-notebook .mode-index,.mode-notebook .mode-arrow{background:#edf1f2;color:#596d73}
+.mastery-panel{border-top-color:#dbe3e5}
+
+.mission-label{color:#75868b}.mission-label i{background:linear-gradient(90deg,#167b80,#c1d2d4)}
+.hero-card::after{width:220px;height:220px;border-width:1px;border-color:rgba(22,123,128,.08);right:-88px;top:-98px;box-shadow:0 0 0 34px rgba(22,123,128,.025),0 0 0 68px rgba(22,123,128,.015)}
+.hero-card h1 em{color:#167b80}.hero-lead{color:#65767c}
+.starter-role{border-color:#dbe5e7;background:#f6f9f9}.role-surface-s{background:#f1f6fb}.role-surface-v{background:#f6f2fb}.role-symbol{box-shadow:none;border:1px solid rgba(16,33,38,.045)}
+.permission-note{background:#f4f7f7;border-color:#dbe3e5}.permission-icon{background:#102126}.permission-note b{color:#167b80}
+.primary-button{background:#102126;border:1px solid #102126;box-shadow:0 10px 23px rgba(16,33,38,.16);border-radius:14px}.primary-button:hover{background:#17343a}.primary-button:focus-visible{outline-color:rgba(22,123,128,.28)}
+.secondary-button{border-color:#cfdadd;color:#34484e;background:#f9fbfb}
+
+.game-card{position:relative}.question-meta span{background:#edf2f3;color:#6e7f84}.game-card #questionKicker{color:#6f8085}
+.mini-button{background:#f4f7f7;border-color:#dbe3e5;color:#65767c}.mini-button#quickNotebookBtn{background:#eaf4f3;color:#167b80;border-color:#cee5e3}
+.hint-box{background:#f5f8f8;border-color:#dbe3e5}
+.sentence-stage{background:linear-gradient(155deg,#102126 0,#15343a 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.sentence-stage::after{content:"";position:absolute;width:160px;height:160px;border:1px solid rgba(127,200,197,.09);border-radius:50%;right:-70px;bottom:-82px;box-shadow:0 0 0 28px rgba(127,200,197,.03)}
+.stage-grid{opacity:.3;background-image:linear-gradient(rgba(137,184,184,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(137,184,184,.07) 1px,transparent 1px)}
+.selected-role-line span{color:#849398}.selected-role-line b{color:#1d343a}
+.control-dock{border-color:#dbe3e5;background:rgba(251,252,252,.94);box-shadow:0 -10px 32px rgba(16,33,38,.08)}
+
+.feedback-card{border-radius:25px}.feedback-icon{border-radius:50%;background:#e8f4ef;color:#167a61;border:1px solid #d0e9df}
+.feedback-card.is-wrong .feedback-icon{border-radius:50%}
+.feedback-card.is-discovery{
+  background:linear-gradient(152deg,#0f2227 0%,#143239 62%,#183d40 100%);border-color:#1e4448;color:#fff;
+  box-shadow:0 26px 70px rgba(10,31,35,.24);animation:discoveryArrive .52s cubic-bezier(.16,1,.3,1);
+}
+.feedback-card.is-discovery::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 22% 23%,rgba(81,186,181,.12),transparent 25%),linear-gradient(120deg,transparent 35%,rgba(255,255,255,.025) 50%,transparent 65%)}
+.feedback-card.is-discovery::after{width:178px;height:178px;right:-56px;top:-54px;border-color:rgba(120,210,202,.17);box-shadow:0 0 0 30px rgba(91,188,181,.035),0 0 54px rgba(57,168,162,.09);animation:discoveryRing 1.15s ease-out both}
+.feedback-card.is-discovery .feedback-icon{border-radius:50%;background:rgba(89,190,181,.09);border:1px solid rgba(135,218,211,.26);color:#95d9d3;box-shadow:0 0 0 7px rgba(95,196,188,.035)}
+.feedback-card.is-discovery .feedback-pattern{color:#e1bd82}.feedback-card.is-discovery .feedback-topline{color:#8fb0b1}.feedback-card.is-discovery .feedback-body{color:#b9c9cb}
+.discovery-box{background:rgba(255,255,255,.045);border-color:rgba(152,214,209,.12);backdrop-filter:blur(10px)}
+.discovery-box .unlock-role{border-radius:50%;background:#eaf8f6;color:#146f70;box-shadow:0 0 0 7px rgba(105,199,192,.04)}
+.discovery-box .unlock-copy span{color:#8eb8b7;letter-spacing:.13em}.compare-cell{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.08)}
+.discovery-saved{background:rgba(184,134,60,.075);border-color:rgba(215,177,117,.14);color:#d1c5b3}.discovery-saved strong{color:#ecd7b4}
+
+.notebook-sheet,.settings-sheet{background:#fbfcfc;border-top:1px solid #dbe3e5}.notebook-status{background:#f3f7f7}.notebook-status span{color:#167b80}.note-card{background:#fbfcfc;border-color:#dbe3e5}.note-card.is-focus{border-color:#82b9b7;box-shadow:0 0 0 4px rgba(22,123,128,.075)}.note-badge{background:#102126}.note-key{background:#eaf4f3;color:#275f62}.note-saved{color:#167a61}.note-saved::before{background:#e5f3ee}
+.toast{background:rgba(16,33,38,.95);box-shadow:0 12px 34px rgba(16,33,38,.2)}
+
+/* ROLE LAB / challenge share the same research-note language */
+.learning-hero,.challenge-intro-card,.challenge-play-card,.challenge-feedback-card,.challenge-complete-card{position:relative;overflow:hidden}
+.learning-hero::before,.challenge-intro-card::before{content:"";position:absolute;left:0;top:0;width:48px;height:2px;background:#167b80}
+.role-material-note{background:#f4f7f7;border-color:#dbe3e5}.same-word-card{border-color:#dbe3e5}.learning-memory-card{background:#f6f3ed;border-color:#e6ded0}
+.challenge-intro-card{background:linear-gradient(155deg,#102126,#153238);color:#f4fbfb;border-color:#1c4045;box-shadow:0 24px 64px rgba(16,33,38,.2)}
+.challenge-intro-card .section-kicker{color:#90d0cb}.challenge-intro-card p{color:#b9c9cb}.challenge-level-chip{background:rgba(184,134,60,.12)!important;color:#e0bc80!important;border-color:rgba(224,188,128,.18)!important}
+.challenge-purpose-grid article{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.08)!important}.challenge-rule-note{background:rgba(184,134,60,.07)!important;border-color:rgba(215,177,117,.13)!important}
+.challenge-primary-button{background:#102126!important;border-color:#102126!important;box-shadow:0 10px 24px rgba(16,33,38,.16)!important}.challenge-intro-card .challenge-primary-button{background:#edf8f6!important;color:#15383b!important;border-color:#d5ebe8!important;box-shadow:none!important}
+.challenge-feedback-mark{background:#e8f4ef!important;color:#167a61!important;border-radius:50%!important}.challenge-transfer-card{background:#f6f3ed!important;border-color:#e6ded0!important}
+
+/* WORD CODE: same world, a different discovery field */
+.word-code-body{background:radial-gradient(circle at 88% -5%,rgba(22,123,128,.09),transparent 28%),radial-gradient(circle at 5% 65%,rgba(184,134,60,.04),transparent 30%),linear-gradient(180deg,#f7f9f9,#edf2f2 48%,#e8eeee)}
+.phonics-course-switcher{border-color:#dbe3e5;background:#f7f9f9}.course-tab.active{background:#102126;color:#fff}.course-tab.active small{color:#91b7b8}.course-jump-button{border-color:#dbe3e5;background:#f8fbfb;color:#456066}
+.phonics-progress-card{position:relative;overflow:hidden}.phonics-progress-card::after{content:"";position:absolute;width:92px;height:92px;border:1px solid rgba(22,123,128,.08);border-radius:50%;right:-38px;top:-36px}
+.phonics-found-number{color:#102126!important}.phonics-found-number::after{content:" FOUND";font-size:7px;color:#7c8b90;margin-left:3px;letter-spacing:.08em}
+.phonics-intro-card{position:relative;overflow:hidden}.phonics-intro-card h1 em{color:#167b80}.phonics-lead{color:#65767c}.phonics-discovery-chip{background:#102126!important;color:#f4fbfb!important;border-color:#102126!important}.phonics-discovery-chip small{color:#8fc2c0!important}.phonics-discovery-chip strong{color:#e7f7f5!important}
+.phonics-principles{grid-template-columns:repeat(4,1fr)!important;gap:6px}.phonics-principles article{background:#f4f7f7!important;border-color:#dbe3e5!important}.phonics-principles article span{color:#167b80!important}.phonics-audio-note{background:#f5f1e9!important;border-color:#e6ddcd!important}.phonics-audio-note b{color:#8f652d!important}
+.phonics-mode-discover{background:linear-gradient(145deg,#102126,#16343a)!important;border-color:#102126!important;color:#fff!important}.phonics-mode-discover .mode-copy small{color:#a9bec1!important}.phonics-mode-discover .mode-index,.phonics-mode-discover .mode-arrow{background:rgba(116,203,198,.12)!important;color:#8dd0cc!important}
+.phonics-mode-practice .mode-index,.phonics-mode-practice .mode-arrow{background:#eaf4f3!important;color:#167b80!important}.phonics-mode-map .mode-index,.phonics-mode-map .mode-arrow{background:#edf1f2!important;color:#5e7177!important}.phonics-mode-memory{background:#fbf8f2!important;border-color:#e9dfcf!important}.phonics-mode-memory .mode-index,.phonics-mode-memory .mode-arrow{background:#f3eadb!important;color:#956a31!important}
+.phonics-instruction{background:#102126!important}.phonics-instruction span{color:#8fd1cc!important}.phonics-question-box{background:#f4f7f7!important}.phonics-question-box>small{color:#167b80!important}.phonics-guess-button{border-color:#dbe3e5!important;background:#fbfcfc!important}.phonics-word-card{border-color:#dbe3e5!important;background:#fbfcfc!important;box-shadow:none!important}.phonics-word-card i{color:#167b80!important}.phonics-word-card mark,.phonics-big-word mark,.phonics-probe-word mark,.phonics-feedback-word mark{background:#dff1ef!important;color:#126c6d!important}
+.phonics-reveal-card{position:relative;overflow:hidden;background:linear-gradient(154deg,#102126,#17383e)!important;color:#f6fbfb!important;border-color:#1d4348!important;animation:discoveryArrive .5s cubic-bezier(.16,1,.3,1)}
+.phonics-reveal-card::after{content:"";position:absolute;width:165px;height:165px;border:1px solid rgba(125,211,204,.16);border-radius:50%;right:-65px;top:-70px;box-shadow:0 0 0 30px rgba(85,185,178,.03);animation:discoveryRing 1.1s ease-out both;pointer-events:none}.phonics-reveal-card .section-kicker{color:#94d4cf}.phonics-reveal-card .phonics-pattern-pill{background:rgba(184,134,60,.11)!important;color:#e2c18b!important;border-color:rgba(218,178,114,.18)!important}.phonics-reveal-card .phonics-reveal-mark{background:rgba(96,192,185,.08)!important;color:#98d9d3!important;border:1px solid rgba(129,215,208,.2);border-radius:50%!important}.phonics-reveal-card h1{color:#fff}.phonics-reveal-card .phonics-rule-reveal{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.08)!important}.phonics-reveal-card .phonics-rule-reveal p{color:#e2ebeb!important}.phonics-reveal-card .phonics-rule-reveal small{color:#a7bbbd!important}.phonics-reveal-card .phonics-contrast-row{border-color:rgba(255,255,255,.08)!important;background:rgba(255,255,255,.035)!important}.phonics-reveal-card .phonics-contrast-row button{background:#edf8f6!important;color:#15383b!important}.phonics-reveal-card .phonics-contrast-row b{color:#9bd8d2!important}.phonics-reveal-card .phonics-contrast-row small{color:#9cb0b3!important}.phonics-reveal-card .phonics-probe-box{background:rgba(4,16,19,.34)!important;border:1px solid rgba(255,255,255,.06)}.phonics-reveal-card .primary-button{background:#edf8f6;color:#15383b;border-color:#d5ebe8;box-shadow:none}
+.phonics-practice-stage{background:linear-gradient(155deg,#102126,#15393d)!important}.phonics-focus-label{color:#8ed0cb!important}.phonics-sound-choice.selected{border-color:#167b80!important;background:#eaf5f4!important;box-shadow:0 0 0 3px rgba(22,123,128,.07)!important}.phonics-map-item{border-color:#dbe3e5!important;background:#fbfcfc!important}.phonics-map-item-head span,.phonics-map-item-head strong{color:#167b80!important}.phonics-map-examples button{border-color:#cee3e1!important;background:#edf7f6!important;color:#255f61!important}
+
+footer{color:#8b989d}footer p{letter-spacing:.11em}
+
+@keyframes discoveryArrive{0%{opacity:0;transform:translateY(8px) scale(.992)}55%{opacity:1}100%{transform:none}}
+@keyframes discoveryRing{0%{transform:scale(.66);opacity:0}35%{opacity:1}100%{transform:scale(1.08);opacity:.55}}
+@media (prefers-reduced-motion:reduce){.feedback-card.is-discovery,.phonics-reveal-card,.feedback-card.is-discovery::after,.phonics-reveal-card::after{animation:none!important}}
+
+@media(max-width:520px){
+  .home-intro h1{font-size:29px}.phonics-principles{grid-template-columns:1fr 1fr!important}.phonics-principles article{min-height:82px}.mode-card{min-height:72px}.course-switch-card{min-height:64px}
+  .feedback-card.is-discovery{padding-top:24px}.feedback-card.is-discovery h1{font-size:25px}
+}

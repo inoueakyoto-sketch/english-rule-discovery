@@ -1,11 +1,23 @@
-# RULE FINDER / WORD CODE v0.2.0 two-course candidate
+# DISCOVERY v0.2.1 quiet-discovery design candidate
 
-GitHub Pagesでそのまま公開できる、スマホ中心の中学生向け英語学習Webアプリです。
+GitHub Pagesでそのまま公開できる、スマホ中心の中学生向け英語学習Webアプリです。v0.2.1では「発見！」をアプリ全体の体験テーマとして、UI/UXを「静かな発見」に統一しました。
+
+
+## v0.2.1 デザインコンセプト — 静かな発見
+
+- 通常画面はオフホワイト＋濃紺で静かにし、問題そのものに集中する
+- 新しい規則に出会った瞬間だけ、画面を深い色へ切り替えて円がゆっくり広がる
+- 通常の正解は「CLEAR」ではなく「FOUND」とし、派手な祝福をしない
+- 新規ルールは「DISCOVERED」として、発見ログ／DISCOVERY MAPへ蓄積する
+- COURSE 01 / 02を `DISCOVERY 01 / 02` に統一し、文法と単語読みを1つの探索体験として見せる
+- 青緑を探索のメイン色、落ち着いた金色を「新しい気づき」の補助色として使用
+- 紙吹雪・キャラクター・過剰な連続正解演出は使用しない
+- `prefers-reduced-motion` に対応し、アニメーションを減らす端末設定を尊重する
 
 ## 大きな2コース
 
-### COURSE 01 — 文のしくみ
-従来の RULE FINDER コースです。
+### DISCOVERY 01 — 文のしくみ
+英文の中の骨組みを、自分で見つけていくコースです。
 
 - SV → SVC → SVO → SVOO → SVOC → M を「今までと違う」に気づいて発見
 - 発見済みルールだけの5問適応練習
@@ -15,7 +27,7 @@ GitHub Pagesでそのまま公開できる、スマホ中心の中学生向け�
 - 高校・大学レベル英文を使う難問チャレンジ
 - 難問では文型分解・穴埋め・並び替えを扱う
 
-### COURSE 02 — 単語の読み
+### DISCOVERY 02 — 単語の読み
 新設の WORD CODE コースです。
 
 「ABCの文字名やローマ字は読めるが、英単語になると読めず、単語を覚えにくい」学習者を主対象にしています。
@@ -84,8 +96,8 @@ WORD CODEの発見語も、読みのパターンを見つけやすい基本語�
 
 ## ファイル構成
 
-- `index.html` — COURSE 01 文のしくみ
-- `phonics.html` — COURSE 02 単語の読み
+- `index.html` — DISCOVERY 01 文のしくみ
+- `phonics.html` — DISCOVERY 02 単語の読み
 - `styles.css` — 共通UI
 - `app.js` / `core.js` — 文法コース
 - `phonics.js` / `phonics-core.js` — 読みコース
@@ -107,7 +119,7 @@ GitHub:
 
 ```bash
 git add .
-git commit -m "Update to v0.2.0 two-course"
+git commit -m "Update to v0.2.1 quiet discovery design"
 git push
 ```
 
