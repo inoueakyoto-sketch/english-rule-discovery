@@ -1,9 +1,11 @@
 (function(){
   const C=window.EnglishDiscoveryCore;
   const G=window.ED_ROLE_GUIDE;
+  const H=window.ED_CHALLENGE_BANK;
   if(!G) throw new Error("ED_ROLE_GUIDE is required");
-  const STORAGE_KEY="english_rule_discovery_v015";
-  const LEGACY_KEYS=["english_rule_discovery_v014","english_rule_discovery_v013","english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
+  if(!H) throw new Error("ED_CHALLENGE_BANK is required");
+  const STORAGE_KEY="english_rule_discovery_v016";
+  const LEGACY_KEYS=["english_rule_discovery_v015","english_rule_discovery_v014","english_rule_discovery_v013","english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
   const PRACTICE_LENGTH=5;
   const $=id=>document.getElementById(id);
   const els={
@@ -11,25 +13,27 @@
     settingsBtn:$("settingsBtn"),settingsPanel:$("settingsPanel"),settingsBackdrop:$("settingsBackdrop"),settingsCloseBtn:$("settingsCloseBtn"),
     gradeSelect:$("gradeSelect"),termSelect:$("termSelect"),hintToggle:$("hintToggle"),applySettingsBtn:$("applySettingsBtn"),resetProgressBtn:$("resetProgressBtn"),
     scopeText:$("scopeText"),discoveredText:$("discoveredText"),successCount:$("successCount"),streakCount:$("streakCount"),ruleMap:$("ruleMap"),
-    homeCard:$("homeCard"),discoveryModeBtn:$("discoveryModeBtn"),discoveryModeTitle:$("discoveryModeTitle"),discoveryModeText:$("discoveryModeText"),practiceModeBtn:$("practiceModeBtn"),learningModeBtn:$("learningModeBtn"),homeNotebookBtn:$("homeNotebookBtn"),masteryList:$("masteryList"),
+    homeCard:$("homeCard"),discoveryModeBtn:$("discoveryModeBtn"),discoveryModeTitle:$("discoveryModeTitle"),discoveryModeText:$("discoveryModeText"),practiceModeBtn:$("practiceModeBtn"),learningModeBtn:$("learningModeBtn"),challengeModeBtn:$("challengeModeBtn"),challengeModeText:$("challengeModeText"),challengeModeArrow:$("challengeModeArrow"),homeNotebookBtn:$("homeNotebookBtn"),masteryList:$("masteryList"),
     learningCard:$("learningCard"),learningSummary:$("learningSummary"),learningRoleTabs:$("learningRoleTabs"),learningRolePanel:$("learningRolePanel"),comparisonIntro:$("comparisonIntro"),comparisonRows:$("comparisonRows"),comparisonConclusion:$("comparisonConclusion"),
+    challengeIntroCard:$("challengeIntroCard"),challengeStartBtn:$("challengeStartBtn"),challengePlayCard:$("challengePlayCard"),challengeTypeLabel:$("challengeTypeLabel"),challengeQuestionTitle:$("challengeQuestionTitle"),challengeQuestionLead:$("challengeQuestionLead"),challengeHintBtn:$("challengeHintBtn"),challengeHintBox:$("challengeHintBox"),challengeProgress:$("challengeProgress"),challengePrompt:$("challengePrompt"),challengeWork:$("challengeWork"),challengeControls:$("challengeControls"),challengeCheckBtn:$("challengeCheckBtn"),challengeFeedbackCard:$("challengeFeedbackCard"),challengeFeedbackKicker:$("challengeFeedbackKicker"),challengeFeedbackPattern:$("challengeFeedbackPattern"),challengeFeedbackMark:$("challengeFeedbackMark"),challengeFeedbackTitle:$("challengeFeedbackTitle"),challengeFeedbackAnswer:$("challengeFeedbackAnswer"),challengeFeedbackInsight:$("challengeFeedbackInsight"),challengeNextBtn:$("challengeNextBtn"),challengeCompleteCard:$("challengeCompleteCard"),challengeScore:$("challengeScore"),challengeCompleteTitle:$("challengeCompleteTitle"),challengeCompleteMessage:$("challengeCompleteMessage"),challengeResultList:$("challengeResultList"),challengeAgainBtn:$("challengeAgainBtn"),challengeHomeBtn:$("challengeHomeBtn"),
     introCard:$("introCard"),startBtn:$("startBtn"),gameCard:$("gameCard"),questionKicker:$("questionKicker"),questionTitle:$("questionTitle"),questionNumber:$("questionNumber"),practiceProgress:$("practiceProgress"),
     wordHintBtn:$("wordHintBtn"),hintBox:$("hintBox"),sentenceArea:$("sentenceArea"),rolePalette:$("rolePalette"),selectedRoleText:$("selectedRoleText"),
     clearBtn:$("clearBtn"),checkBtn:$("checkBtn"),feedbackCard:$("feedbackCard"),feedbackIcon:$("feedbackIcon"),feedbackKicker:$("feedbackKicker"),feedbackPattern:$("feedbackPattern"),feedbackTitle:$("feedbackTitle"),feedbackBody:$("feedbackBody"),
-    answerStrip:$("answerStrip"),reviewRetryBtn:$("reviewRetryBtn"),nextBtn:$("nextBtn"),completeCard:$("completeCard"),continueMixedBtn:$("continueMixedBtn"),
+    answerStrip:$("answerStrip"),reviewRetryBtn:$("reviewRetryBtn"),nextBtn:$("nextBtn"),completeCard:$("completeCard"),challengeFromCompleteBtn:$("challengeFromCompleteBtn"),continueMixedBtn:$("continueMixedBtn"),
     practiceCompleteCard:$("practiceCompleteCard"),practiceScore:$("practiceScore"),practiceCompleteMessage:$("practiceCompleteMessage"),practiceResultList:$("practiceResultList"),practiceAgainBtn:$("practiceAgainBtn"),practiceNotebookBtn:$("practiceNotebookBtn"),practiceHomeBtn:$("practiceHomeBtn"),toast:$("toast")
   };
 
   const defaultState=()=>({
     grade:1,term:1,hints:true,started:false,stageIndex:0,phase:"practice",
     currentPatternCorrect:0,successCount:0,attemptCount:0,streak:0,bestStreak:0,completed:false,
-    practiceStats:{}
+    practiceStats:{},challengeBest:0,challengeRuns:0
   });
 
   let state=loadState();
   let screenMode=state.started?"home":"onboarding";
   let sentence=null,assignments=[],selectedRole="S",nextAction="question",toastTimer=null;
   let practiceSession=null,notebookReturnAction=null,learningRole="S";
+  let challengeSession=null,challengeSelection=null,challengeAssignments=[],challengeSelectedRole="S",challengeOrder=[],challengeOrderPool=[];
 
   function loadState(){
     try{
@@ -99,6 +103,16 @@
       els.discoveryModeTitle.textContent="発見をつづける";
       els.discoveryModeText.textContent=`今は ${stage.label} を使えるようにしているところ。次の「あれ？」へ進みます。`;
     }
+    const challengeOpen=!!state.completed;
+    els.challengeModeBtn.classList.toggle("is-locked",!challengeOpen);
+    els.challengeModeBtn.setAttribute("aria-disabled",String(!challengeOpen));
+    if(challengeOpen){
+      els.challengeModeText.textContent=state.challengeBest>0?`高校・大学レベルに挑戦。BEST ${state.challengeBest}/5。`:`高校・大学レベルの英文を、中学で学んだ見方で攻略する。`;
+      els.challengeModeArrow.textContent="→";
+    }else{
+      els.challengeModeText.textContent="5文型＋Mまで見つけるとOPEN。学んだ意味を試す場所。";
+      els.challengeModeArrow.textContent="LOCK";
+    }
     els.masteryList.innerHTML="";
     discoveredStages().forEach(stage=>{
       const level=C.masteryLevel(statFor(stage.key));
@@ -111,7 +125,7 @@
 
   function show(el){el.classList.remove("hidden");}
   function hide(el){el.classList.add("hidden");}
-  function hideMainCards(){[els.introCard,els.homeCard,els.learningCard,els.gameCard,els.feedbackCard,els.completeCard,els.practiceCompleteCard].forEach(hide);}
+  function hideMainCards(){[els.introCard,els.homeCard,els.learningCard,els.gameCard,els.feedbackCard,els.completeCard,els.practiceCompleteCard,els.challengeIntroCard,els.challengePlayCard,els.challengeFeedbackCard,els.challengeCompleteCard].forEach(hide);}
   function haptic(kind="tap"){
     if(!navigator.vibrate) return;
     const patterns={tap:8,good:12,bad:[22,30,22],discover:[12,40,18]};
@@ -176,7 +190,7 @@
 
   function showHome(){
     if(!state.started){screenMode="onboarding";hideMainCards();show(els.introCard);refreshHeader();return;}
-    screenMode="home";practiceSession=null;hideMainCards();show(els.homeCard);refreshHeader();scrollTopSoft();
+    screenMode="home";practiceSession=null;challengeSession=null;hideMainCards();show(els.homeCard);refreshHeader();scrollTopSoft();
   }
 
   function openSettings(){closeNotebook(false);show(els.settingsBackdrop);show(els.settingsPanel);els.settingsBtn.setAttribute("aria-expanded","true");document.body.style.overflow="hidden";setTimeout(()=>els.settingsCloseBtn.focus(),30);}
@@ -226,6 +240,7 @@
     els.discoveryModeBtn.addEventListener("click",()=>{haptic("tap");if(state.completed) openNotebook(currentStageMax());else beginDiscovery();});
     els.practiceModeBtn.addEventListener("click",()=>{haptic("tap");startPracticeSession();});
     els.learningModeBtn.addEventListener("click",()=>{haptic("tap");showLearning();});
+    els.challengeModeBtn.addEventListener("click",()=>{haptic("tap");if(!state.completed){showToast("5文型＋Mまで発見すると開きます");return;}showChallengeIntro();});
     els.homeNotebookBtn.addEventListener("click",()=>openNotebook());
     els.applySettingsBtn.addEventListener("click",()=>{
       state.grade=Number(els.gradeSelect.value);state.term=Number(els.termSelect.value);state.hints=els.hintToggle.checked;saveState();refreshHeader();closeSettings();showToast("学習範囲を更新しました");
@@ -242,10 +257,159 @@
     els.checkBtn.addEventListener("click",submitAnswer);
     els.nextBtn.addEventListener("click",handleNext);
     els.reviewRetryBtn.addEventListener("click",()=>{const idx=Math.max(0,stageIndexForPattern(sentence.pattern));openNotebook(idx,"retry");});
+    els.challengeFromCompleteBtn.addEventListener("click",()=>showChallengeIntro());
     els.continueMixedBtn.addEventListener("click",()=>startPracticeSession());
     els.practiceAgainBtn.addEventListener("click",()=>startPracticeSession());
     els.practiceNotebookBtn.addEventListener("click",()=>openNotebook());
     els.practiceHomeBtn.addEventListener("click",showHome);
+    els.challengeStartBtn.addEventListener("click",startChallengeSession);
+    els.challengeHintBtn.addEventListener("click",()=>{const opening=els.challengeHintBox.classList.contains("hidden");els.challengeHintBox.classList.toggle("hidden");els.challengeHintBtn.setAttribute("aria-expanded",String(opening));haptic("tap");});
+    els.challengeCheckBtn.addEventListener("click",submitChallengeAnswer);
+    els.challengeNextBtn.addEventListener("click",()=>{if(!challengeSession)return;if(challengeSession.index>=challengeSession.items.length-1)showChallengeSummary();else{challengeSession.index+=1;renderChallengeQuestion();}});
+    els.challengeAgainBtn.addEventListener("click",startChallengeSession);
+    els.challengeHomeBtn.addEventListener("click",showHome);
+  }
+
+
+  function showChallengeIntro(){
+    if(!state.completed){showToast("5文型＋Mまで発見すると開きます");return;}
+    screenMode="challenge-intro";practiceSession=null;challengeSession=null;hideMainCards();show(els.challengeIntroCard);refreshHeader();scrollTopSoft();
+  }
+
+  function currentChallengeItem(){return challengeSession?.items?.[challengeSession.index]||null;}
+  function challengeTypeName(type){return type==="structure"?"文型を見抜く":type==="gap"?"穴埋め":"並び替え";}
+  function challengeTypeCode(type){return type==="structure"?"STRUCTURE":type==="gap"?"GAP FILL":"WORD ORDER";}
+  function challengeTransferText(type){
+    if(type==="structure") return "長い文でもS・V・O・C・Mを大きく分ける力は、長文読解の土台になります。";
+    if(type==="gap") return "空欄の役割が分かると、『名詞か・形容詞か・動詞か』で選択肢を減らせます。";
+    return "S→V→O/Cの順番が見えると、単語を全部訳せなくても並び替えの軸を作れます。";
+  }
+
+  function startChallengeSession(){
+    if(!state.completed) return showChallengeIntro();
+    challengeSession={items:H.buildSession(Math.random),index:0,results:[],correct:0};
+    screenMode="challenge";renderChallengeQuestion();scrollTopSoft();
+  }
+
+  function renderChallengeProgress(){
+    if(!challengeSession) return;
+    els.challengeProgress.innerHTML="";
+    challengeSession.items.forEach((_,i)=>{
+      const dot=document.createElement("span");
+      if(i<challengeSession.results.length) dot.className=challengeSession.results[i].correct?"done good":"done miss";
+      else if(i===challengeSession.index) dot.className="now";
+      dot.textContent=String(i+1);els.challengeProgress.appendChild(dot);
+    });
+  }
+
+  function renderChallengeHints(item){
+    const whole=`<div class="challenge-whole-meaning"><b>文全体</b><span>${escapeHtml(item.translation||"")}</span></div>`;
+    const vocab=(item.vocab||[]).map(v=>`<div class="hint-row"><div class="hint-wordline"><strong>${escapeHtml(v.en)}</strong><span class="pos-badge">品詞：${escapeHtml(v.pos||"—")}</span></div><span class="hint-ja">${escapeHtml(v.ja)}</span></div>`).join("");
+    els.challengeHintBox.innerHTML=whole+vocab;hide(els.challengeHintBox);els.challengeHintBtn.setAttribute("aria-expanded","false");
+  }
+
+  function renderChallengeQuestion(){
+    const item=currentChallengeItem();if(!item) return;
+    hideMainCards();show(els.challengePlayCard);screenMode="challenge";
+    challengeSelection=null;challengeAssignments=[];challengeSelectedRole="S";challengeOrder=[];challengeOrderPool=[];
+    els.challengeTypeLabel.textContent=challengeTypeCode(item.type);
+    els.challengeQuestionTitle.textContent=challengeTypeName(item.type);
+    els.challengeQuestionLead.textContent=item.type==="structure"?"知らない語は『単語』で確認。英文の大きなかたまりをS・V・O・C・Mに分けます。":item.type==="gap"?"空欄が文の中で何の役割かを考えて、最も合う語を選びます。":"日本語と文の骨組みを手がかりに、英語のかたまりを正しい順に並べます。";
+    renderChallengeProgress();renderChallengeHints(item);renderChallengeTask(item);refreshHeader();scrollTopSoft();
+  }
+
+  function renderChallengeTask(item){
+    els.challengePrompt.innerHTML="";els.challengeWork.innerHTML="";els.challengeControls.innerHTML="";els.challengeCheckBtn.disabled=true;
+    const meta=document.createElement("div");meta.className="challenge-question-meta";meta.innerHTML=`<span>Q ${challengeSession.index+1} / ${challengeSession.items.length}</span><b>${escapeHtml(item.level)}</b>`;els.challengePrompt.appendChild(meta);
+    if(item.type==="structure") renderChallengeStructure(item);
+    else if(item.type==="gap") renderChallengeGap(item);
+    else renderChallengeOrder(item);
+  }
+
+  function renderChallengeStructure(item){
+    const sentence=document.createElement("div");sentence.className="challenge-sentence-stage";
+    const area=document.createElement("div");area.className="challenge-sentence-area";
+    if(!challengeAssignments.length) challengeAssignments=Array(item.parts.length).fill(null);
+    item.parts.forEach((part,i)=>{
+      const b=document.createElement("button");b.type="button";b.className="challenge-chunk"+(challengeAssignments[i]?` has-role ${roleCss(challengeAssignments[i])}`:"");
+      b.innerHTML=`<span class="challenge-assigned">${challengeAssignments[i]||""}</span><span>${escapeHtml(part.text)}</span>`;
+      b.addEventListener("click",()=>{challengeAssignments[i]=challengeSelectedRole;renderChallengeStructureOnly(item);haptic("tap");});area.appendChild(b);
+    });
+    sentence.appendChild(area);els.challengeWork.appendChild(sentence);
+    const roleLine=document.createElement("div");roleLine.className="challenge-role-line";roleLine.innerHTML=`<span>SELECT</span><b>${challengeSelectedRole} ${escapeHtml(roleLabel(challengeSelectedRole)[1])}</b><small>英文のかたまりをタップ</small>`;els.challengeWork.appendChild(roleLine);
+    const palette=document.createElement("div");palette.className="challenge-role-palette";
+    ["S","V","O","C","M"].forEach(role=>{const b=document.createElement("button");b.type="button";b.className=`challenge-role-button ${roleCss(role)}${role===challengeSelectedRole?" active":""}`;b.textContent=role;b.addEventListener("click",()=>{challengeSelectedRole=role;renderChallengeStructureOnly(item);haptic("tap");});palette.appendChild(b);});
+    els.challengeControls.appendChild(palette);
+    const clear=document.createElement("button");clear.type="button";clear.className="challenge-clear-button";clear.textContent="クリア";clear.addEventListener("click",()=>{challengeAssignments=Array(item.parts.length).fill(null);renderChallengeStructureOnly(item);});els.challengeControls.appendChild(clear);
+    els.challengeCheckBtn.disabled=challengeAssignments.some(x=>!x);
+  }
+
+  function renderChallengeStructureOnly(item){
+    els.challengeWork.innerHTML="";els.challengeControls.innerHTML="";renderChallengeStructure(item);
+  }
+
+  function renderChallengeGap(item){
+    const line=document.createElement("div");line.className="challenge-gap-sentence";line.innerHTML=`${escapeHtml(item.sentenceBefore)}<mark>□□□□</mark>${escapeHtml(item.sentenceAfter)}`;els.challengeWork.appendChild(line);
+    const ja=document.createElement("p");ja.className="challenge-translation";ja.textContent=item.translation;els.challengeWork.appendChild(ja);
+    const options=document.createElement("div");options.className="challenge-options";
+    H.shuffled(item.options,()=>0.314159).forEach(option=>{const b=document.createElement("button");b.type="button";b.className="challenge-option"+(challengeSelection===option?" selected":"");b.textContent=option;b.addEventListener("click",()=>{challengeSelection=option;renderChallengeGapOnly(item);haptic("tap");});options.appendChild(b);});els.challengeControls.appendChild(options);
+    els.challengeCheckBtn.disabled=!challengeSelection;
+  }
+
+  function renderChallengeGapOnly(item){els.challengeWork.innerHTML="";els.challengeControls.innerHTML="";renderChallengeGap(item);}
+
+  function renderChallengeOrder(item){
+    if(!challengeOrderPool.length) challengeOrderPool=H.shuffled(item.answer,Math.random);
+    const ja=document.createElement("div");ja.className="challenge-order-translation";ja.innerHTML=`<span>JAPANESE</span><p>${escapeHtml(item.translation)}</p>`;els.challengeWork.appendChild(ja);
+    const answer=document.createElement("div");answer.className="challenge-order-answer";
+    if(!challengeOrder.length) answer.innerHTML='<span class="order-placeholder">英語のかたまりを順にタップ</span>';
+    else challengeOrder.forEach((token,i)=>{const chip=document.createElement("button");chip.type="button";chip.className="order-selected-chip";chip.innerHTML=`<small>${i+1}</small>${escapeHtml(token)}`;chip.addEventListener("click",()=>{challengeOrder.splice(i,1);renderChallengeOrderOnly(item);});answer.appendChild(chip);});
+    els.challengeWork.appendChild(answer);
+    const pool=document.createElement("div");pool.className="challenge-order-pool";
+    challengeOrderPool.forEach(token=>{const used=challengeOrder.includes(token),b=document.createElement("button");b.type="button";b.className="order-pool-chip"+(used?" used":"");b.disabled=used;b.textContent=token;b.addEventListener("click",()=>{challengeOrder.push(token);renderChallengeOrderOnly(item);haptic("tap");});pool.appendChild(b);});els.challengeControls.appendChild(pool);
+    const clear=document.createElement("button");clear.type="button";clear.className="challenge-clear-button";clear.textContent="並びをクリア";clear.addEventListener("click",()=>{challengeOrder=[];renderChallengeOrderOnly(item);});els.challengeControls.appendChild(clear);
+    els.challengeCheckBtn.disabled=challengeOrder.length!==item.answer.length;
+  }
+
+  function renderChallengeOrderOnly(item){els.challengeWork.innerHTML="";els.challengeControls.innerHTML="";renderChallengeOrder(item);}
+
+  function submitChallengeAnswer(){
+    const item=currentChallengeItem();if(!item||!challengeSession) return;
+    let correct=false;
+    if(item.type==="structure") correct=item.parts.every((p,i)=>challengeAssignments[i]===p.role);
+    else if(item.type==="gap") correct=challengeSelection===item.answer;
+    else correct=challengeOrder.join("\u241f")===item.answer.join("\u241f");
+    challengeSession.results.push({id:item.id,type:item.type,correct,pattern:item.pattern});if(correct) challengeSession.correct+=1;
+    haptic(correct?"good":"bad");showChallengeFeedback(item,correct);
+  }
+
+  function challengeCorrectAnswerHtml(item){
+    if(item.type==="structure") return `<div class="challenge-structure-answer">${item.parts.map(p=>`<span><b>${escapeHtml(p.role)}</b>${escapeHtml(p.text)}</span>`).join("")}</div>`;
+    if(item.type==="gap") return `<div class="challenge-gap-answer">${escapeHtml(item.sentenceBefore)}<strong>${escapeHtml(item.answer)}</strong>${escapeHtml(item.sentenceAfter)}</div>`;
+    return `<div class="challenge-order-correct">${item.answer.map((x,i)=>`<span><small>${i+1}</small>${escapeHtml(x)}</span>`).join("")}</div>`;
+  }
+
+  function showChallengeFeedback(item,correct){
+    hideMainCards();show(els.challengeFeedbackCard);screenMode="challenge-feedback";
+    els.challengeFeedbackCard.classList.toggle("is-wrong",!correct);els.challengeFeedbackMark.textContent=correct?"✓":"↺";
+    els.challengeFeedbackKicker.textContent=correct?"CHALLENGE CLEAR":"STRUCTURE CHECK";els.challengeFeedbackPattern.textContent=item.pattern;
+    els.challengeFeedbackTitle.textContent=correct?"難しい英文でも、見方が通用した。":"単語が難しくても、骨組みに戻ればいい。";
+    els.challengeFeedbackAnswer.innerHTML=challengeCorrectAnswerHtml(item);
+    els.challengeFeedbackInsight.innerHTML=`<span>中学の見方が効くポイント</span><p>${escapeHtml(item.insight)}</p><div>${escapeHtml(challengeTransferText(item.type))}</div>`;
+    els.challengeNextBtn.innerHTML=challengeSession.index>=challengeSession.items.length-1?'結果を見る <span>→</span>':'次の難問へ <span>→</span>';
+    refreshHeader();scrollTopSoft();
+  }
+
+  function showChallengeSummary(){
+    if(!challengeSession) return;
+    hideMainCards();show(els.challengeCompleteCard);screenMode="challenge-summary";
+    const score=challengeSession.correct;state.challengeRuns=Number(state.challengeRuns||0)+1;state.challengeBest=Math.max(Number(state.challengeBest||0),score);saveState();
+    els.challengeScore.textContent=String(score);
+    els.challengeCompleteTitle.textContent=score===5?"高校・大学レベルでも、骨組みを使えた。":score>=3?"難しい英文でも、見方は通用した。":"難しい英文にも、戻れる場所がある。";
+    els.challengeCompleteMessage.textContent=score===5?"単語や文法が難しくなっても、S・V・O・C・Mの見方はそのまま使えます。":score>=3?"全部の単語を知らなくても、文の役割を使って考えられています。迷った問題は次回また別の形で挑戦できます。":"これは単語テストではありません。意味の補助を使いながら、S・V・O・C・Mに戻ること自体が攻略法です。";
+    els.challengeResultList.innerHTML="";
+    challengeSession.results.forEach((r,i)=>{const row=document.createElement("div");row.className=`challenge-result-row ${r.correct?"is-good":"is-miss"}`;row.innerHTML=`<span>${i+1}</span><b>${escapeHtml(challengeTypeName(r.type))}</b><small>${escapeHtml(r.pattern)}</small><em>${r.correct?"CLEAR":"REVIEW"}</em>`;els.challengeResultList.appendChild(row);});
+    refreshHeader();scrollTopSoft();
   }
 
   function beginDiscovery(){

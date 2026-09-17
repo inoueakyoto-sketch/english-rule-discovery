@@ -61,7 +61,7 @@
       <div class="home-intro">
         <span class="section-kicker">YOUR SESSION</span>
         <h1>今日は、どう進める？</h1>
-        <p>新しい規則を見つける。5問だけ使ってみる。しくみを整理する。わからなくなったら気づきに戻る。</p>
+        <p>新しい規則を見つける。5問だけ使ってみる。しくみを整理する。最後は、難しい英文にも挑戦する。</p>
       </div>
 
       <div class="mode-stack">
@@ -80,8 +80,13 @@
           <span class="mode-copy"><b>S・V・O・Cを学ぶ</b><small>それぞれの場所に、どんな単語・まとまりが入るのか整理する。</small></span>
           <span class="mode-arrow">→</span>
         </button>
-        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
+        <button id="challengeModeBtn" class="mode-card mode-challenge" type="button">
           <span class="mode-index">04</span>
+          <span class="mode-copy"><b>難問にチャレンジ</b><small id="challengeModeText">高校・大学レベルの英文を、中学で学んだ見方で攻略する。</small></span>
+          <span id="challengeModeArrow" class="mode-arrow">→</span>
+        </button>
+        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
+          <span class="mode-index">05</span>
           <span class="mode-copy"><b>気づきを振り返る</b><small>わからなくなったら、自分で見つけたルールへ戻る。</small></span>
           <span class="mode-arrow">→</span>
         </button>
@@ -184,7 +189,10 @@
       <p>5つの文型と、骨組みの外から情報を足すMまで発見しました。</p>
       <div class="rule-summary"><span>SV</span><span>SVC</span><span>SVO</span><span>SVOO</span><span>SVOC</span><span>＋M</span></div>
       <p class="complete-next">次は、疑問文・否定文・do / does・時制なども「今までとの違い」から発見できます。</p>
-      <button id="continueMixedBtn" class="primary-button full-button" type="button">5問だけ練習する</button>
+      <div class="complete-actions">
+        <button id="challengeFromCompleteBtn" class="challenge-primary-button" type="button">高校・大学レベルに挑む <span>→</span></button>
+        <button id="continueMixedBtn" class="secondary-button full-button" type="button">5問だけ練習する</button>
+      </div>
     </section>
 
     <section id="practiceCompleteCard" class="practice-complete-card hidden">
@@ -244,6 +252,51 @@
       </div>
     </section>
 
+    <section id="challengeIntroCard" class="challenge-intro-card hidden">
+      <div class="challenge-hero-line"><span class="section-kicker">FINAL CHALLENGE</span><span class="challenge-level-chip">高校・大学レベル</span></div>
+      <h1>知らない英文でも、<br><em>骨組み</em>は見つけられる。</h1>
+      <p>難しい単語や、まだ習っていない文法が混ざっていても大丈夫。単語の意味は補助を使い、<strong>S・V・O・C・Mの見方</strong>で挑戦します。</p>
+      <div class="challenge-purpose-grid">
+        <article><span>01</span><b>文型を見抜く</b><small>長い文でも大きなかたまりに分ける</small></article>
+        <article><span>02</span><b>穴埋め</b><small>その場所に入る品詞・役割から考える</small></article>
+        <article><span>03</span><b>並び替え</b><small>S→V→O/Cの骨組みから順番を作る</small></article>
+      </div>
+      <div class="challenge-rule-note"><span>POINT</span><p><b>知らない単語があっても失格ではありません。</b>「単語」を押せば、日本語の意味と品詞を確認できます。</p></div>
+      <button id="challengeStartBtn" class="challenge-primary-button" type="button">5問チャレンジを始める <span>→</span></button>
+    </section>
+
+    <section id="challengePlayCard" class="challenge-play-card hidden">
+      <div class="challenge-play-head">
+        <div><span id="challengeTypeLabel" class="section-kicker">STRUCTURE</span><h1 id="challengeQuestionTitle">文型を見抜く</h1><p id="challengeQuestionLead"></p></div>
+        <button id="challengeHintBtn" class="mini-button challenge-word-button" type="button" aria-expanded="false"><span>単語</span></button>
+      </div>
+      <div id="challengeProgress" class="challenge-progress" aria-label="難問チャレンジの進み具合"></div>
+      <div id="challengeHintBox" class="hint-box challenge-hint-box hidden"></div>
+      <div id="challengePrompt" class="challenge-prompt"></div>
+      <div id="challengeWork" class="challenge-work"></div>
+      <div id="challengeControls" class="challenge-controls"></div>
+      <button id="challengeCheckBtn" class="challenge-primary-button" type="button" disabled>答えを決める <span>→</span></button>
+    </section>
+
+    <section id="challengeFeedbackCard" class="challenge-feedback-card hidden">
+      <div class="challenge-feedback-head"><span id="challengeFeedbackKicker" class="section-kicker">RESULT</span><span id="challengeFeedbackPattern" class="challenge-pattern-reveal"></span></div>
+      <div id="challengeFeedbackMark" class="challenge-feedback-mark">✓</div>
+      <h1 id="challengeFeedbackTitle"></h1>
+      <div id="challengeFeedbackAnswer" class="challenge-answer-reveal"></div>
+      <div id="challengeFeedbackInsight" class="challenge-insight"></div>
+      <button id="challengeNextBtn" class="challenge-primary-button" type="button">次の難問へ <span>→</span></button>
+    </section>
+
+    <section id="challengeCompleteCard" class="challenge-complete-card hidden">
+      <span class="section-kicker">CHALLENGE COMPLETE</span>
+      <div class="challenge-complete-score"><strong id="challengeScore">0</strong><span>/5</span></div>
+      <h1 id="challengeCompleteTitle">難しい英文にも、同じ骨組みがあった。</h1>
+      <p id="challengeCompleteMessage"></p>
+      <div id="challengeResultList" class="challenge-result-list"></div>
+      <div class="challenge-transfer-card"><span>WHY THIS MATTERS</span><b>文型が見えると、穴埋め・並び替えでも「どこに何が入るか」を考えられる。</b><p>単語を全部知らなくても、文の役割を手がかりに選択肢を減らせます。</p></div>
+      <div class="challenge-summary-actions"><button id="challengeAgainBtn" class="challenge-primary-button" type="button">もう一度挑戦</button><button id="challengeHomeBtn" class="text-button full-button" type="button">ホームへ戻る</button></div>
+    </section>
+
     <section class="principle-card">
       <span class="section-kicker">HOW IT WORKS</span>
       <h2>未知は、一度に1つ。</h2>
@@ -288,15 +341,16 @@
     <span class="data-chip">共通基礎語彙・試作</span>
     <button id="applySettingsBtn" class="primary-button full-button" type="button">この範囲で学ぶ</button>
     <button id="resetProgressBtn" class="reset-button" type="button">学習記録を最初から</button>
-    <p class="fine-print">v0.1.4では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
+    <p class="fine-print">v0.1.6では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
   </section>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-  <footer><p>RULE FINDER <span>v0.1.4 role lab candidate</span></p></footer>
+  <footer><p>RULE FINDER <span>v0.1.6 challenge candidate</span></p></footer>
   <script src="./data/wordbank.js"></script>
   <script src="./core.js"></script>
   <script src="./data/role-guide.js"></script>
+  <script src="./data/challenge-bank.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
