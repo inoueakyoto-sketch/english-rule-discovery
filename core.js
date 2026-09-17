@@ -22,22 +22,43 @@
     if(subject.person===2||subject.number==="pl") return "are";
     return "is";
   }
+  function subjectPos(subject){
+    if(["i","you","we","they","he","she"].includes(subject.id)) return "代名詞";
+    if(["ken","yuki"].includes(subject.id)) return "固有名詞";
+    return "名詞のまとまり";
+  }
+  function nounLikePos(item){
+    if(item.pos) return item.pos;
+    return item.text.includes(" ")?"名詞のまとまり":"名詞";
+  }
+  function complementPos(item){
+    if(item.pos) return item.pos;
+    if(item.kind==="adj") return "形容詞";
+    return nounLikePos(item);
+  }
+  function modifierPos(item){
+    if(item.pos) return item.pos;
+    if(["sometimes","usually","today","yesterday"].includes(item.id)) return "副詞";
+    if(["after-school","at-school","in-park","sunday"].includes(item.id)) return "前置詞＋名詞のまとまり";
+    if(item.id==="every-day") return "名詞のまとまり（Mとして使用）";
+    return "副詞のはたらき";
+  }
   function part(text,role,ja,meta={}){return {text,role,ja,...meta};}
   function pool(name,key){return B[name].filter(x=>allowed(x,key));}
 
   function genSV(key,rng){
     const s=pick(pool("subjects",key),rng),v=pick(pool("svVerbs",key),rng);
-    return {pattern:"SV",parts:[part(s.text,"S",s.ja),part(verbForm(v,s),"V",v.ja)]};
+    return {pattern:"SV",parts:[part(s.text,"S",s.ja,{pos:subjectPos(s)}),part(verbForm(v,s),"V",v.ja,{pos:"一般動詞"})]};
   }
   function genSVC(key,rng){
     const s=pick(pool("subjects",key),rng),c=pick(pool("complements",key),rng);
-    return {pattern:"SVC",parts:[part(s.text,"S",s.ja),part(beForm(s),"V","～です・～の状態です"),part(c.text,"C",c.ja)]};
+    return {pattern:"SVC",parts:[part(s.text,"S",s.ja,{pos:subjectPos(s)}),part(beForm(s),"V","～です・～の状態です",{pos:"be動詞"}),part(c.text,"C",c.ja,{pos:complementPos(c)})]};
   }
   function genSVO(key,rng){
     const s=pick(pool("subjects",key),rng),v=pick(pool("svoVerbs",key),rng);
     const objs=pool("objects",key).filter(o=>v.objectGroups.includes(o.group));
     const o=pick(objs,rng)||pick(pool("objects",key),rng);
-    return {pattern:"SVO",parts:[part(s.text,"S",s.ja),part(verbForm(v,s),"V",v.ja),part(o.text,"O",o.ja)]};
+    return {pattern:"SVO",parts:[part(s.text,"S",s.ja,{pos:subjectPos(s)}),part(verbForm(v,s),"V",v.ja,{pos:"一般動詞"}),part(o.text,"O",o.ja,{pos:nounLikePos(o)})]};
   }
   function genSVOO(key,rng){
     const s=pick(pool("subjects",key),rng);
@@ -45,19 +66,19 @@
     const io=pick(pool("indirectObjects",key),rng)||B.indirectObjects[1];
     const objs=pool("objects",key).filter(o=>(v.directGroups||["thing"]).includes(o.group));
     const d=pick(objs,rng)||B.objects.find(x=>x.id==="book");
-    return {pattern:"SVOO",parts:[part(s.text,"S",s.ja),part(verbForm(v,s),"V",v.ja),part(io.text,"O",io.ja),part(d.text,"O",d.ja)]};
+    return {pattern:"SVOO",parts:[part(s.text,"S",s.ja,{pos:subjectPos(s)}),part(verbForm(v,s),"V",v.ja,{pos:"一般動詞"}),part(io.text,"O",io.ja,{pos:"代名詞（目的格）"}),part(d.text,"O",d.ja,{pos:nounLikePos(d)})]};
   }
   function genSVOC(key,rng){
     const frames=B.svocFrames.filter(f=>allowed(f.verb,key));
     const f=pick(frames,rng)||B.svocFrames[0],s=pick(pool("subjects",key),rng);
     const obj=pick(f.objects.filter(x=>allowed(x,key)),rng)||f.objects[0];
     const c=pick(f.complements.filter(x=>allowed(x,key)),rng)||f.complements[0];
-    return {pattern:"SVOC",parts:[part(s.text,"S",s.ja),part(verbForm(f.verb,s),"V",f.verb.ja),part(obj.text,"O",obj.ja),part(c.text,"C",c.ja)]};
+    return {pattern:"SVOC",parts:[part(s.text,"S",s.ja,{pos:subjectPos(s)}),part(verbForm(f.verb,s),"V",f.verb.ja,{pos:"一般動詞"}),part(obj.text,"O",obj.ja,{pos:obj.pos||"代名詞（目的格）"}),part(c.text,"C",c.ja,{pos:complementPos(c)})]};
   }
   function genM(key,rng,basePattern){
     const base=generateSentence(basePattern||pick(["SV","SVC","SVO"],rng),key,rng);
     const m=pick(pool("modifiers",key),rng)||B.modifiers[0];
-    const pos=pick(m.positions,rng)||"end",mp=part(m.text,"M",m.ja,{modifierPosition:pos});
+    const pos=pick(m.positions,rng)||"end",mp=part(m.text,"M",m.ja,{modifierPosition:pos,pos:modifierPos(m)});
     let parts=[...base.parts];
     if(pos==="front") parts=[mp,...parts];
     else if(pos==="mid"){

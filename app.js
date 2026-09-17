@@ -1,7 +1,9 @@
 (function(){
   const C=window.EnglishDiscoveryCore;
-  const STORAGE_KEY="english_rule_discovery_v013";
-  const LEGACY_KEYS=["english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
+  const G=window.ED_ROLE_GUIDE;
+  if(!G) throw new Error("ED_ROLE_GUIDE is required");
+  const STORAGE_KEY="english_rule_discovery_v015";
+  const LEGACY_KEYS=["english_rule_discovery_v014","english_rule_discovery_v013","english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
   const PRACTICE_LENGTH=5;
   const $=id=>document.getElementById(id);
   const els={
@@ -9,8 +11,9 @@
     settingsBtn:$("settingsBtn"),settingsPanel:$("settingsPanel"),settingsBackdrop:$("settingsBackdrop"),settingsCloseBtn:$("settingsCloseBtn"),
     gradeSelect:$("gradeSelect"),termSelect:$("termSelect"),hintToggle:$("hintToggle"),applySettingsBtn:$("applySettingsBtn"),resetProgressBtn:$("resetProgressBtn"),
     scopeText:$("scopeText"),discoveredText:$("discoveredText"),successCount:$("successCount"),streakCount:$("streakCount"),ruleMap:$("ruleMap"),
-    homeCard:$("homeCard"),discoveryModeBtn:$("discoveryModeBtn"),discoveryModeTitle:$("discoveryModeTitle"),discoveryModeText:$("discoveryModeText"),practiceModeBtn:$("practiceModeBtn"),homeNotebookBtn:$("homeNotebookBtn"),masteryList:$("masteryList"),
-    introCard:$("introCard"),startBtn:$("startBtn"),gameCard:$("gameCard"),questionKicker:$("questionKicker"),questionTitle:$("questionTitle"),questionNumber:$("questionNumber"),questionMode:$("questionMode"),practiceProgress:$("practiceProgress"),
+    homeCard:$("homeCard"),discoveryModeBtn:$("discoveryModeBtn"),discoveryModeTitle:$("discoveryModeTitle"),discoveryModeText:$("discoveryModeText"),practiceModeBtn:$("practiceModeBtn"),learningModeBtn:$("learningModeBtn"),homeNotebookBtn:$("homeNotebookBtn"),masteryList:$("masteryList"),
+    learningCard:$("learningCard"),learningSummary:$("learningSummary"),learningRoleTabs:$("learningRoleTabs"),learningRolePanel:$("learningRolePanel"),comparisonIntro:$("comparisonIntro"),comparisonRows:$("comparisonRows"),comparisonConclusion:$("comparisonConclusion"),
+    introCard:$("introCard"),startBtn:$("startBtn"),gameCard:$("gameCard"),questionKicker:$("questionKicker"),questionTitle:$("questionTitle"),questionNumber:$("questionNumber"),practiceProgress:$("practiceProgress"),
     wordHintBtn:$("wordHintBtn"),hintBox:$("hintBox"),sentenceArea:$("sentenceArea"),rolePalette:$("rolePalette"),selectedRoleText:$("selectedRoleText"),
     clearBtn:$("clearBtn"),checkBtn:$("checkBtn"),feedbackCard:$("feedbackCard"),feedbackIcon:$("feedbackIcon"),feedbackKicker:$("feedbackKicker"),feedbackPattern:$("feedbackPattern"),feedbackTitle:$("feedbackTitle"),feedbackBody:$("feedbackBody"),
     answerStrip:$("answerStrip"),reviewRetryBtn:$("reviewRetryBtn"),nextBtn:$("nextBtn"),completeCard:$("completeCard"),continueMixedBtn:$("continueMixedBtn"),
@@ -26,7 +29,7 @@
   let state=loadState();
   let screenMode=state.started?"home":"onboarding";
   let sentence=null,assignments=[],selectedRole="S",nextAction="question",toastTimer=null;
-  let practiceSession=null,notebookReturnAction=null;
+  let practiceSession=null,notebookReturnAction=null,learningRole="S";
 
   function loadState(){
     try{
@@ -108,7 +111,7 @@
 
   function show(el){el.classList.remove("hidden");}
   function hide(el){el.classList.add("hidden");}
-  function hideMainCards(){[els.introCard,els.homeCard,els.gameCard,els.feedbackCard,els.completeCard,els.practiceCompleteCard].forEach(hide);}
+  function hideMainCards(){[els.introCard,els.homeCard,els.learningCard,els.gameCard,els.feedbackCard,els.completeCard,els.practiceCompleteCard].forEach(hide);}
   function haptic(kind="tap"){
     if(!navigator.vibrate) return;
     const patterns={tap:8,good:12,bad:[22,30,22],discover:[12,40,18]};
@@ -116,6 +119,60 @@
   }
   function showToast(text){clearTimeout(toastTimer);els.toast.textContent=text;show(els.toast);toastTimer=setTimeout(()=>hide(els.toast),1700);}
   function scrollTopSoft(){window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}
+
+  function roleCss(role){return `role-${String(role).toLowerCase()}`;}
+
+  function highlightFocus(sentence,focus){
+    const safeSentence=escapeHtml(sentence),safeFocus=escapeHtml(focus);
+    const idx=safeSentence.indexOf(safeFocus);
+    if(idx<0) return safeSentence;
+    return `${safeSentence.slice(0,idx)}<mark>${safeFocus}</mark>${safeSentence.slice(idx+safeFocus.length)}`;
+  }
+
+  function renderLearningSummary(){
+    els.learningSummary.innerHTML="";
+    G.summary.forEach(item=>{
+      const card=document.createElement("button");card.type="button";card.className=`learning-summary-card ${roleCss(item.role)}`;
+      card.setAttribute("aria-label",`${item.role} ${item.name}を詳しく見る`);
+      card.innerHTML=`<span class="summary-role">${escapeHtml(item.role)}</span><div><b>${escapeHtml(item.formula)}</b><small>${escapeHtml(item.question)}</small></div>`;
+      card.addEventListener("click",()=>{learningRole=item.role;renderLearningRole();els.learningRoleTabs.scrollIntoView({block:"start",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});haptic("tap");});
+      els.learningSummary.appendChild(card);
+    });
+  }
+
+  function renderLearningTabs(){
+    els.learningRoleTabs.innerHTML="";
+    ["S","V","O","C"].forEach(role=>{
+      const data=G.roles[role],b=document.createElement("button");b.type="button";b.role="tab";b.className=`learning-tab ${roleCss(role)}${role===learningRole?" active":""}`;
+      b.setAttribute("aria-selected",String(role===learningRole));b.innerHTML=`<strong>${role}</strong><span>${escapeHtml(data.name)}</span>`;
+      b.addEventListener("click",()=>{learningRole=role;renderLearningRole();haptic("tap");});els.learningRoleTabs.appendChild(b);
+    });
+  }
+
+  function renderLearningRole(){
+    renderLearningTabs();
+    const data=G.roles[learningRole];
+    const patterns=data.patterns.map((p,i)=>{
+      const examples=p.examples.map(x=>`<span>${escapeHtml(x)}</span>`).join("");
+      return `<section class="role-pattern-item"><div class="pattern-top"><span class="pattern-number">${String(i+1).padStart(2,"0")}</span><div><div class="pattern-label-line"><h3>${escapeHtml(p.label)}</h3><em class="pattern-level ${p.level==="基本"?"is-basic":"is-later"}">${escapeHtml(p.level)}</em></div><div class="pattern-chips">${examples}</div></div></div><div class="pattern-example"><span>EXAMPLE</span><p>${highlightFocus(p.sentence,p.focus)}</p></div><p class="pattern-note">${escapeHtml(p.note)}</p></section>`;
+    }).join("");
+    els.learningRolePanel.className=`learning-role-panel ${roleCss(learningRole)}`;
+    els.learningRolePanel.innerHTML=`<header class="learning-role-head"><div class="role-big">${learningRole}</div><div><span>${escapeHtml(data.english)}</span><h2>${escapeHtml(data.name)} <small>${escapeHtml(data.question)}</small></h2></div></header><h3 class="role-headline">${escapeHtml(data.headline)}</h3><p class="role-description">${escapeHtml(data.description)}</p><div class="role-pattern-list">${patterns}</div><div class="role-tip"><span>LOOK</span><p>${escapeHtml(data.tip)}</p></div>`;
+  }
+
+  function renderLearningComparison(){
+    const comp=G.comparison;els.comparisonIntro.textContent=comp.intro;els.comparisonRows.innerHTML="";
+    comp.rows.forEach(row=>{
+      const item=document.createElement("div");item.className=`comparison-role-row ${roleCss(row.role)}`;
+      item.innerHTML=`<span class="comparison-role-badge">${escapeHtml(row.role)}</span><div><p>${highlightFocus(row.sentence,row.focus)}</p><small>${escapeHtml(row.reason)}</small></div>`;els.comparisonRows.appendChild(item);
+    });
+    els.comparisonConclusion.textContent=comp.conclusion;
+  }
+
+  function showLearning(){
+    if(!state.started) return;
+    screenMode="learning";practiceSession=null;hideMainCards();show(els.learningCard);renderLearningSummary();renderLearningRole();renderLearningComparison();refreshHeader();scrollTopSoft();
+  }
 
   function showHome(){
     if(!state.started){screenMode="onboarding";hideMainCards();show(els.introCard);refreshHeader();return;}
@@ -168,6 +225,7 @@
     els.startBtn.addEventListener("click",()=>{haptic("tap");state.started=true;saveState();beginDiscovery();});
     els.discoveryModeBtn.addEventListener("click",()=>{haptic("tap");if(state.completed) openNotebook(currentStageMax());else beginDiscovery();});
     els.practiceModeBtn.addEventListener("click",()=>{haptic("tap");startPracticeSession();});
+    els.learningModeBtn.addEventListener("click",()=>{haptic("tap");showLearning();});
     els.homeNotebookBtn.addEventListener("click",()=>openNotebook());
     els.applySettingsBtn.addEventListener("click",()=>{
       state.grade=Number(els.gradeSelect.value);state.term=Number(els.termSelect.value);state.hints=els.hintToggle.checked;saveState();refreshHeader();closeSettings();showToast("学習範囲を更新しました");
@@ -233,14 +291,13 @@
   function renderQuestion(retry=false){
     if(screenMode==="practice"){
       const number=retry?Math.max(1,practiceSession.results.length):Math.min(PRACTICE_LENGTH,practiceSession.results.length+1);
-      els.questionNumber.textContent=`Q ${number} / ${PRACTICE_LENGTH}`;els.questionMode.textContent=retry?"RETRY":"PRACTICE";
+      els.questionNumber.textContent=`Q ${number} / ${PRACTICE_LENGTH}`;
       els.questionTitle.textContent=retry?"同じ文を、もう一度見る":"見つけた規則を使ってみる";
       els.questionKicker.textContent=retry?"気づきを見たあとなら、見え方が変わっているかも。":"5問だけ。苦手な規則は少し多めに出ます。";
       renderPracticeProgress(retry);show(els.practiceProgress);
     }else{
       hide(els.practiceProgress);
       els.questionNumber.textContent=`Q ${String(state.attemptCount+1).padStart(2,"0")}`;
-      els.questionMode.textContent=state.phase==="discovery"?"UNKNOWN":(sentence.pattern==="M"?(sentence.basePattern+" + ?"):sentence.pattern);
       els.questionTitle.textContent=state.phase==="discovery"?"いつも通り、分けてみる":"英文の役割を見つける";
       els.questionKicker.textContent=state.phase==="discovery"?"見慣れないところがあっても、今わかる範囲でOK。":"役割を選んで、英文のまとまりをタップ。";
     }
@@ -282,7 +339,7 @@
     });
   }
   function renderHints(){
-    els.hintBox.innerHTML=sentence.parts.map(p=>`<div><strong>${escapeHtml(p.text)}</strong> ${escapeHtml(p.ja)}</div>`).join("");
+    els.hintBox.innerHTML=sentence.parts.map(p=>`<div class="hint-row"><div class="hint-wordline"><strong>${escapeHtml(p.text)}</strong><span class="pos-badge">品詞：${escapeHtml(p.pos||"—")}</span></div><span class="hint-ja">${escapeHtml(p.ja)}</span></div>`).join("");
     hide(els.hintBox);els.wordHintBtn.setAttribute("aria-expanded","false");if(state.hints) show(els.wordHintBtn);else hide(els.wordHintBtn);
   }
   function updateCheck(){els.checkBtn.disabled=assignments.some(x=>!x);}

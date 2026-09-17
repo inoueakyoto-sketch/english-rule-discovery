@@ -69,16 +69,16 @@
     {id:"show",base:"show",third:"shows",ja:"～に…を見せる",level:"j1t2",directGroups:["thing"]}
   ];
   const names=[
-    {id:"Ken-c",text:"Ken",ja:"ケン",level:"base"},
-    {id:"Yuki-c",text:"Yuki",ja:"ユキ",level:"base"},
-    {id:"Mike-c",text:"Mike",ja:"マイク",level:"j1t1"}
+    {id:"Ken-c",text:"Ken",ja:"ケン",level:"base",pos:"固有名詞"},
+    {id:"Yuki-c",text:"Yuki",ja:"ユキ",level:"base",pos:"固有名詞"},
+    {id:"Mike-c",text:"Mike",ja:"マイク",level:"j1t1",pos:"固有名詞"}
   ];
   const svocFrames=[
     {id:"call",verb:{base:"call",third:"calls",ja:"～を…と呼ぶ",level:"j1t1"},objects:[
       {text:"him",ja:"彼を",level:"j1t1"},{text:"her",ja:"彼女を",level:"j1t2"}],complements:names},
     {id:"make",verb:{base:"make",third:"makes",ja:"～を…にする",level:"j2t1"},objects:[
       {text:"me",ja:"私を",level:"j1t1"},{text:"us",ja:"私たちを",level:"j1t2"}],complements:[
-      {text:"happy",ja:"うれしい状態に",level:"base"},{text:"tired",ja:"疲れた状態に",level:"j1t2"}]}
+      {text:"happy",ja:"うれしい状態に",level:"base",kind:"adj",pos:"形容詞"},{text:"tired",ja:"疲れた状態に",level:"j1t2",kind:"adj",pos:"形容詞"}]}
   ];
   const modifiers=[
     {id:"today",text:"today",ja:"今日",level:"base",positions:["end","front"]},
@@ -91,6 +91,6 @@
     {id:"usually",text:"usually",ja:"たいてい",level:"j1t2",positions:["mid"]},
     {id:"yesterday",text:"yesterday",ja:"昨日",level:"j1t3",positions:["end","front"]}
   ];
-  window.ED_WORD_BANK={meta:{version:"0.1.0",note:"学期別タグは試作の共通基礎語彙。特定教科書の公式配当表ではありません。"},
+  window.ED_WORD_BANK={meta:{version:"0.1.5",note:"学期別タグは試作の共通基礎語彙。特定教科書の公式配当表ではありません。"},
     levels:L,subjects,svVerbs,complements,objects,svoVerbs,indirectObjects,svooVerbs,svocFrames,modifiers};
 })();

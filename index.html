@@ -61,7 +61,7 @@
       <div class="home-intro">
         <span class="section-kicker">YOUR SESSION</span>
         <h1>今日は、どう進める？</h1>
-        <p>新しい規則を見つける。5問だけ使ってみる。わからなくなったら気づきに戻る。</p>
+        <p>新しい規則を見つける。5問だけ使ってみる。しくみを整理する。わからなくなったら気づきに戻る。</p>
       </div>
 
       <div class="mode-stack">
@@ -75,8 +75,13 @@
           <span class="mode-copy"><b>5問だけ練習する</b><small>見つけた規則だけ。苦手・久しぶりを少し多めに。</small></span>
           <span class="mode-arrow">→</span>
         </button>
-        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
+        <button id="learningModeBtn" class="mode-card mode-learning" type="button">
           <span class="mode-index">03</span>
+          <span class="mode-copy"><b>S・V・O・Cを学ぶ</b><small>それぞれの場所に、どんな単語・まとまりが入るのか整理する。</small></span>
+          <span class="mode-arrow">→</span>
+        </button>
+        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
+          <span class="mode-index">04</span>
           <span class="mode-copy"><b>気づきを振り返る</b><small>わからなくなったら、自分で見つけたルールへ戻る。</small></span>
           <span class="mode-arrow">→</span>
         </button>
@@ -116,7 +121,7 @@
     <section id="gameCard" class="game-card hidden" aria-live="polite">
       <div class="question-head">
         <div>
-          <div class="question-meta"><span id="questionNumber">Q 01</span><span id="questionMode">SV</span></div>
+          <div class="question-meta"><span id="questionNumber">Q 01</span></div>
           <h1 id="questionTitle">英文の役割を見つける</h1>
           <p id="questionKicker">役割を選んで、英文のまとまりをタップ。</p>
         </div>
@@ -196,6 +201,49 @@
       </div>
     </section>
 
+    <section id="learningCard" class="learning-card hidden">
+      <div class="learning-hero">
+        <span class="section-kicker">ROLE LAB</span>
+        <h1>S・V・O・Cには、<br>何が入る？</h1>
+        <p>ここは「説明を読みたいとき」の学びページ。<strong>S・V・O・Cは品詞の名前ではなく、文の中での仕事</strong>です。まず「役割の箱」と「入る材料」を分けて見ます。</p>
+      </div>
+
+      <div class="role-material-note">
+        <div><span>ROLE</span><b>文の役割 ＝ 箱</b><small>S / V / O / C</small></div>
+        <span class="role-material-arrow" aria-hidden="true">←</span>
+        <div><span>PART OF SPEECH</span><b>品詞 ＝ 入る材料</b><small>名詞 / 動詞 / 形容詞 …</small></div>
+      </div>
+
+      <div id="learningSummary" class="learning-summary" aria-label="S V O C の基本対応"></div>
+
+      <div class="learning-section-head">
+        <div><span class="section-kicker">PATTERN GUIDE</span><h2>役割を1つずつ見る</h2></div>
+        <small>タップして切り替え</small>
+      </div>
+      <div id="learningRoleTabs" class="learning-role-tabs" role="tablist" aria-label="学ぶ役割"></div>
+      <article id="learningRolePanel" class="learning-role-panel" aria-live="polite"></article>
+
+      <section class="same-word-card">
+        <span class="section-kicker">SAME WORD, DIFFERENT JOB</span>
+        <h2>同じ品詞でも、役割は変わる</h2>
+        <p id="comparisonIntro"></p>
+        <div id="comparisonRows" class="comparison-rows"></div>
+        <div id="comparisonConclusion" class="comparison-conclusion"></div>
+      </section>
+
+      <div class="learning-memory-card">
+        <span class="section-kicker">FIRST MEMORY</span>
+        <h2>まずは、この4つだけ。</h2>
+        <div class="memory-lines">
+          <p><b class="memory-role role-s-text">S</b><span>＝ 名詞の仲間</span></p>
+          <p><b class="memory-role role-v-text">V</b><span>＝ 動詞の仲間</span></p>
+          <p><b class="memory-role role-o-text">O</b><span>＝ 名詞の仲間</span></p>
+          <p><b class="memory-role role-c-text">C</b><span>＝ 名詞・形容詞の仲間</span></p>
+        </div>
+        <p class="learning-next-note">あとで不定詞・動名詞・that＋文などを習うと、「名詞の仲間」の形が増えていきます。</p>
+      </div>
+    </section>
+
     <section class="principle-card">
       <span class="section-kicker">HOW IT WORKS</span>
       <h2>未知は、一度に1つ。</h2>
@@ -240,14 +288,15 @@
     <span class="data-chip">共通基礎語彙・試作</span>
     <button id="applySettingsBtn" class="primary-button full-button" type="button">この範囲で学ぶ</button>
     <button id="resetProgressBtn" class="reset-button" type="button">学習記録を最初から</button>
-    <p class="fine-print">v0.1.3では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
+    <p class="fine-print">v0.1.4では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
   </section>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-  <footer><p>RULE FINDER <span>v0.1.3 adaptive practice candidate</span></p></footer>
+  <footer><p>RULE FINDER <span>v0.1.4 role lab candidate</span></p></footer>
   <script src="./data/wordbank.js"></script>
   <script src="./core.js"></script>
+  <script src="./data/role-guide.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
