@@ -63,12 +63,12 @@
     </section>
 
     <section id="phonicsHomeCard" class="phonics-card hidden">
-      <div class="phonics-home-head"><span class="section-kicker">WORD CODE</span><h1>今日は、どの発見をする？</h1><p>新しい音の手がかりを探す。見つけた規則を使う。わからなくなったら地図に戻る。</p></div>
+      <div class="phonics-home-head"><span class="section-kicker">WORD CODE</span><h1>今日は、どの発見をする？</h1><p>新しい音の手がかりを探す。見つけた規則を使う。わからなくなったら発見表に戻る。</p></div>
       <div class="mode-stack">
         <button id="phonicsDiscoverBtn" class="mode-card phonics-mode-discover" type="button"><span class="mode-index">01</span><span class="mode-copy"><b id="phonicsDiscoverTitle">読み方を発見する</b><small id="phonicsDiscoverText">似た単語を聞き比べて、次のパターンを見つける。</small></span><span class="mode-arrow">→</span></button>
         <button id="phonicsPracticeBtn" class="mode-card phonics-mode-practice" type="button"><span class="mode-index">02</span><span class="mode-copy"><b>5問だけ音を読む</b><small>発見済みのパターンだけ。苦手・久しぶりを少し多めに。</small></span><span class="mode-arrow">→</span></button>
         <button id="phonicsMemoryBtn" class="mode-card phonics-mode-memory" type="button"><span class="mode-index">03</span><span class="mode-copy"><b>5語だけ覚える</b><small>つづり → 音 → 意味をつないで、学校の単語暗記につなげる。</small></span><span class="mode-arrow">→</span></button>
-        <button id="phonicsMapBtn" class="mode-card phonics-mode-map" type="button"><span class="mode-index">04</span><span class="mode-copy"><b>音の地図を見る</b><small>game / take、ee、ea など、見つけた手がかりをいつでも確認。</small></span><span class="mode-arrow">→</span></button>
+        <button id="phonicsMapBtn" class="mode-card phonics-mode-map" type="button"><span class="mode-index">04</span><span class="mode-copy"><b>音の発見表を見る</b><small>発見した規則だけが埋まる。例外もあとから同じ表に加わる。</small></span><span class="mode-arrow">→</span></button>
       </div>
       <div class="phonics-mastery-panel"><div class="mastery-head"><span>今の手ごたえ</span><small>音のパターンごとに表示</small></div><div id="phonicsMasteryList" class="mastery-list"></div></div>
     </section>
@@ -91,7 +91,10 @@
     </section>
 
     <section id="phonicsMapCard" class="phonics-card hidden">
-      <div class="phonics-home-head"><span class="section-kicker">DISCOVERY MAP</span><h1>見つけた音の地図</h1><p>わからなくなったときは、ここに戻る。未発見の規則は先に見せません。</p></div>
+      <div class="phonics-home-head"><span class="section-kicker">SOUND DISCOVERY TABLE</span><h1>音の発見表</h1><p>見つけた規則だけが少しずつ埋まる。まだ知らないところは、答えを先に見せず「？」のまま残します。</p></div>
+      <div class="sound-table-summary"><div><small>FOUND</small><strong id="phonicsTableFound">0</strong></div><span>/</span><div><small>TABLE</small><strong id="phonicsTableTotal">0</strong></div><p id="phonicsTableHint">発見した行を押すと、音を聞いたり、その規則だけを練習できます。</p></div>
+      <div id="phonicsSoundTable" class="sound-discovery-table" aria-label="音の発見表"></div>
+      <div class="sound-table-divider"><span>DISCOVERY LOG</span><b>発見した順に、詳しく振り返る</b></div>
       <div id="phonicsMapList" class="phonics-map-list"></div>
       <button id="phonicsMapHomeBtn" class="text-button full-button" type="button">ホームへ戻る</button>
     </section>
@@ -152,7 +155,7 @@
   </main>
 
   <div id="phonicsToast" class="toast hidden" role="status" aria-live="polite"></div>
-  <footer><p>DISCOVERY / WORD CODE <span>v0.2.1 quiet-discovery design candidate</span></p></footer>
+  <footer><p>DISCOVERY / WORD CODE <span>v0.2.2 sound-discovery-table candidate</span></p></footer>
   <script src="./data/phonics-bank.js"></script>
   <script src="./phonics-core.js"></script>
   <script src="./phonics.js"></script>

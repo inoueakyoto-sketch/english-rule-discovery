@@ -1,4 +1,4 @@
-# DISCOVERY Design System v0.2.1
+# DISCOVERY Design System v0.2.2
 
 ## Core idea
 
@@ -63,3 +63,10 @@ Avoid:
 - `DISCOVERY 02 · WORD CODE` — 単語の読み
 
 Both are different fields of the same activity: **finding hidden rules in English**.
+
+
+## Sound Discovery Table
+- 表は完成形を最初から見せない。未発見セルは `？`。
+- 発見した行だけ、つづり・音・例・発見番号を表示する。
+- 例外は別の正解表として分離せず、元の規則に「別読み」として後から追記する。
+- 表から直接、その規則だけの短い練習へ戻れる。

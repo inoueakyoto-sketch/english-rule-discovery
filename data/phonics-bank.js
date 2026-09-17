@@ -241,5 +241,54 @@
     return familyFor(item.stageId);
   }
 
-  window.ED_PHONICS_BANK={version:"0.2.0",stages,practiceWords,soundChoices,familyFor,familyForWord};
+  const discoveryTableGroups=[
+    {
+      id:"foundation",title:"最初の発見",description:"文字の名前と、単語の中で使う音は別もの。",
+      stageIds:["sound-not-name"]
+    },
+    {
+      id:"short-vowels",title:"短い母音",description:"母音が子音にはさまれた短い形。",
+      stageIds:["short-a","short-i","short-e","short-o","short-u"]
+    },
+    {
+      id:"silent-e",title:"最後の e が変える音",description:"離れた母音と e を1つの手がかりとして見る。",
+      stageIds:["a-e","i-e","o-e"]
+    },
+    {
+      id:"vowel-teams",title:"母音2文字のまとまり",description:"2文字を1つの音の手がかりとして見る。",
+      stageIds:["ee","ea","ai-ay","oa"]
+    },
+    {
+      id:"consonant-pairs",title:"子音2文字のまとまり",description:"子音も2文字で1つの音になることがある。",
+      stageIds:["sh-ch"]
+    },
+    {
+      id:"exceptions",title:"別の読みもある",description:"規則は絶対ではない。予想して、音で確かめる。",
+      stageIds:["exceptions"]
+    }
+  ];
+  const discoveryTableLabels={
+    "sound-not-name":{pattern:"文字 → 音",sound:"名前とは別"},
+    "short-a":{pattern:"a",sound:"/æ/"},
+    "short-i":{pattern:"i",sound:"/ɪ/"},
+    "short-e":{pattern:"e",sound:"/ɛ/"},
+    "short-o":{pattern:"o",sound:"/ɑ/"},
+    "short-u":{pattern:"u",sound:"/ʌ/"},
+    "a-e":{pattern:"a_e",sound:"/eɪ/"},
+    "i-e":{pattern:"i_e",sound:"/aɪ/"},
+    "o-e":{pattern:"o_e",sound:"/oʊ/"},
+    "ee":{pattern:"ee",sound:"/iː/"},
+    "ea":{pattern:"ea",sound:"/iː/"},
+    "ai-ay":{pattern:"ai / ay",sound:"/eɪ/"},
+    "oa":{pattern:"oa",sound:"/oʊ/"},
+    "sh-ch":{pattern:"sh / ch",sound:"/ʃ/・/tʃ/"},
+    "exceptions":{pattern:"例外・別読み",sound:"いろいろ"}
+  };
+  const exceptionLinks={
+    "a-e":{words:["have"],note:"have は a_e の見た目でも /eɪ/ にならない。"},
+    "i-e":{words:["give","live"],note:"give / live は i_e の見た目でも /aɪ/ にならない。"},
+    "ea":{words:["bread","head","great"],note:"ea は /iː/ 以外の読みになることもある。"}
+  };
+
+  window.ED_PHONICS_BANK={version:"0.2.2",stages,practiceWords,soundChoices,familyFor,familyForWord,discoveryTableGroups,discoveryTableLabels,exceptionLinks};
 })();
