@@ -23,6 +23,9 @@
       </div>
     </div>
     <div class="header-actions">
+      <button id="homeBtn" class="icon-button hidden" type="button" aria-label="ホームへ戻る">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-8.5Z"/></svg>
+      </button>
       <button id="notebookBtn" class="notebook-button" type="button" aria-label="気づきノートを開く" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7.5A2.5 2.5 0 0 1 5 17.5v-13Z"/><path d="M8 8h7M8 12h7M8 16h4"/></svg>
         <span>気づき</span>
@@ -52,6 +55,37 @@
       </div>
       <div id="ruleMap" class="rule-map" aria-label="文型の進捗"></div>
       <p id="discoveredText" class="sr-only">SV</p>
+    </section>
+
+    <section id="homeCard" class="home-card hidden">
+      <div class="home-intro">
+        <span class="section-kicker">YOUR SESSION</span>
+        <h1>今日は、どう進める？</h1>
+        <p>新しい規則を見つける。5問だけ使ってみる。わからなくなったら気づきに戻る。</p>
+      </div>
+
+      <div class="mode-stack">
+        <button id="discoveryModeBtn" class="mode-card mode-discovery" type="button">
+          <span class="mode-index">01</span>
+          <span class="mode-copy"><b id="discoveryModeTitle">発見をつづける</b><small id="discoveryModeText">今までと少し違う英文から、次の規則を見つける。</small></span>
+          <span class="mode-arrow">→</span>
+        </button>
+        <button id="practiceModeBtn" class="mode-card mode-practice" type="button">
+          <span class="mode-index">02</span>
+          <span class="mode-copy"><b>5問だけ練習する</b><small>見つけた規則だけ。苦手・久しぶりを少し多めに。</small></span>
+          <span class="mode-arrow">→</span>
+        </button>
+        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
+          <span class="mode-index">03</span>
+          <span class="mode-copy"><b>気づきを振り返る</b><small>わからなくなったら、自分で見つけたルールへ戻る。</small></span>
+          <span class="mode-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="mastery-panel">
+        <div class="mastery-head"><span>今の手ごたえ</span><small>点数ではなく、使えた回数から表示</small></div>
+        <div id="masteryList" class="mastery-list"></div>
+      </div>
     </section>
 
     <section id="introCard" class="hero-card">
@@ -98,6 +132,7 @@
         </div>
       </div>
 
+      <div id="practiceProgress" class="practice-progress hidden" aria-label="5問練習の進み具合"></div>
       <div id="hintBox" class="hint-box hidden"></div>
 
       <div class="sentence-stage">
@@ -129,6 +164,9 @@
       <h1 id="feedbackTitle"></h1>
       <div id="feedbackBody" class="feedback-body"></div>
       <div id="answerStrip" class="answer-strip"></div>
+      <button id="reviewRetryBtn" class="review-retry-button hidden" type="button">
+        <span>気づきを見て、同じ問題をもう一度</span><span aria-hidden="true">↺</span>
+      </button>
       <button id="nextBtn" class="primary-button full-button" type="button">
         <span>次へ</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
       </button>
@@ -141,7 +179,21 @@
       <p>5つの文型と、骨組みの外から情報を足すMまで発見しました。</p>
       <div class="rule-summary"><span>SV</span><span>SVC</span><span>SVO</span><span>SVOO</span><span>SVOC</span><span>＋M</span></div>
       <p class="complete-next">次は、疑問文・否定文・do / does・時制なども「今までとの違い」から発見できます。</p>
-      <button id="continueMixedBtn" class="primary-button full-button" type="button">混ぜて練習する</button>
+      <button id="continueMixedBtn" class="primary-button full-button" type="button">5問だけ練習する</button>
+    </section>
+
+    <section id="practiceCompleteCard" class="practice-complete-card hidden">
+      <div class="practice-complete-top">
+        <div><span class="section-kicker">5 QUESTION PRACTICE</span><h1>今日の5問、ここまで。</h1></div>
+        <div id="practiceScore" class="practice-score">0<span>/5</span></div>
+      </div>
+      <p id="practiceCompleteMessage" class="practice-complete-message"></p>
+      <div id="practiceResultList" class="practice-result-list"></div>
+      <div class="practice-summary-actions">
+        <button id="practiceAgainBtn" class="primary-button full-button" type="button">もう5問</button>
+        <button id="practiceNotebookBtn" class="secondary-button full-button" type="button">気づきを確認する</button>
+        <button id="practiceHomeBtn" class="text-button full-button" type="button">ホームへ戻る</button>
+      </div>
     </section>
 
     <section class="principle-card">
@@ -188,12 +240,12 @@
     <span class="data-chip">共通基礎語彙・試作</span>
     <button id="applySettingsBtn" class="primary-button full-button" type="button">この範囲で学ぶ</button>
     <button id="resetProgressBtn" class="reset-button" type="button">学習記録を最初から</button>
-    <p class="fine-print">v0.1.1では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
+    <p class="fine-print">v0.1.3では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
   </section>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-  <footer><p>RULE FINDER <span>v0.1.2 discovery notebook candidate</span></p></footer>
+  <footer><p>RULE FINDER <span>v0.1.3 adaptive practice candidate</span></p></footer>
   <script src="./data/wordbank.js"></script>
   <script src="./core.js"></script>
   <script src="./app.js"></script>

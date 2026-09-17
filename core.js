@@ -87,8 +87,56 @@
     return sentence.parts.map(p=>p.role).join("")===expected[sentence.pattern];
   }
 
+  function practiceWeight(stat={},now=Date.now()){
+    const attempts=Number(stat.attempts||0),correct=Number(stat.correct||0);
+    const accuracy=attempts?correct/attempts:0;
+    let weight=1;
+    if(attempts===0) weight+=3.5;
+    else if(attempts<3) weight+=2.2;
+    if(attempts>0&&accuracy<0.6) weight+=3;
+    else if(attempts>0&&accuracy<0.8) weight+=1.6;
+    else if(attempts>0&&accuracy<0.9) weight+=0.6;
+    if(stat.lastResult==="wrong") weight+=2.2;
+    if(stat.lastSeen){
+      const days=Math.max(0,(now-Number(stat.lastSeen))/(1000*60*60*24));
+      if(days>=7) weight+=2.2;
+      else if(days>=3) weight+=1.3;
+      else if(days>=1) weight+=0.6;
+    }
+    return Math.max(.25,weight);
+  }
+
+  function choosePracticePattern(patterns,stats={},recent=[],rng=Math.random,now=Date.now()){
+    if(!patterns.length) return null;
+    const last=recent[recent.length-1];
+    const weighted=patterns.map(pattern=>{
+      let weight=practiceWeight(stats[pattern]||{},now);
+      if(patterns.length>1&&pattern===last) weight*=.28;
+      const recentCount=recent.slice(-3).filter(x=>x===pattern).length;
+      if(recentCount>=2) weight*=.45;
+      return {pattern,weight};
+    });
+    const total=weighted.reduce((sum,x)=>sum+x.weight,0);
+    let r=rng()*total;
+    for(const item of weighted){
+      r-=item.weight;
+      if(r<=0) return item.pattern;
+    }
+    return weighted[weighted.length-1].pattern;
+  }
+
+  function masteryLevel(stat={}){
+    const attempts=Number(stat.attempts||0),correct=Number(stat.correct||0);
+    if(attempts===0) return {key:"new",label:"これから"};
+    if(attempts<3) return {key:"learning",label:"練習中"};
+    const accuracy=correct/attempts;
+    if(accuracy>=.85&&stat.lastResult!=="wrong") return {key:"stable",label:"かなり分かってきた"};
+    if(accuracy>=.65) return {key:"almost",label:"あと少し"};
+    return {key:"review",label:"もう一度"};
+  }
+
   window.EnglishDiscoveryCore={
     STAGES,roleLong,levelKey,levelRank,allowed,pick,generateSentence,correctAssignments,
-    knownRolesForStage,discoveryRolesBefore,validateSentence
+    knownRolesForStage,discoveryRolesBefore,validateSentence,practiceWeight,choosePracticePattern,masteryLevel
   };
 })();
