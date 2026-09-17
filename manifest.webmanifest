@@ -1,0 +1,11 @@
+{
+  "name":"RULE FINDER｜英語のしくみ発見",
+  "short_name":"RULE FINDER",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f2f4f8",
+  "theme_color":"#111a2b",
+  "lang":"ja",
+  "description":"英文の中から規則を少しずつ発見していく、中学生向け英語学習アプリ。",
+  "icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
