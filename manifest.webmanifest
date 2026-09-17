@@ -6,7 +6,7 @@
   "background_color": "#f2f4f8",
   "theme_color": "#111a2b",
   "lang": "ja",
-  "description": "英文の規則を発見し、S・V・O・Cのしくみを練習し、高校・大学レベルの英文や穴埋め・並び替えにも挑戦できる中学生向け英語学習アプリ。",
+  "description": "文法のしくみを発見するコースと、フォニックスの考え方で単語の読みを発見するWORD CODEコースを備えた中学生向け英語学習アプリ。",
   "icons": [
     {
       "src": "./icon.svg",

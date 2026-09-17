@@ -91,6 +91,6 @@
     {id:"usually",text:"usually",ja:"たいてい",level:"j1t2",positions:["mid"]},
     {id:"yesterday",text:"yesterday",ja:"昨日",level:"j1t3",positions:["end","front"]}
   ];
-  window.ED_WORD_BANK={meta:{version:"0.1.6",note:"学期別タグは試作の共通基礎語彙。特定教科書の公式配当表ではありません。"},
+  window.ED_WORD_BANK={meta:{version:"0.2.0",note:"学期別タグは試作の共通基礎語彙。特定教科書の公式配当表ではありません。"},
     levels:L,subjects,svVerbs,complements,objects,svoVerbs,indirectObjects,svooVerbs,svocFrames,modifiers};
 })();

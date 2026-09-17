@@ -4,8 +4,8 @@
   const H=window.ED_CHALLENGE_BANK;
   if(!G) throw new Error("ED_ROLE_GUIDE is required");
   if(!H) throw new Error("ED_CHALLENGE_BANK is required");
-  const STORAGE_KEY="english_rule_discovery_v016";
-  const LEGACY_KEYS=["english_rule_discovery_v015","english_rule_discovery_v014","english_rule_discovery_v013","english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
+  const STORAGE_KEY="english_rule_discovery_v020";
+  const LEGACY_KEYS=["english_rule_discovery_v016","english_rule_discovery_v015","english_rule_discovery_v014","english_rule_discovery_v013","english_rule_discovery_v012","english_rule_discovery_v011","english_rule_discovery_v010"];
   const PRACTICE_LENGTH=5;
   const $=id=>document.getElementById(id);
   const els={

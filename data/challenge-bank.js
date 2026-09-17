@@ -199,5 +199,5 @@
     return sequence;
   }
 
-  window.ED_CHALLENGE_BANK={meta:{version:"0.1.6",note:"難しい語彙を知っているかではなく、中学で学ぶ文の骨組みを応用するための編集済み例題。"},structure,gap,order,buildSession,shuffled};
+  window.ED_CHALLENGE_BANK={meta:{version:"0.2.0",note:"難しい語彙を知っているかではなく、中学で学ぶ文の骨組みを応用するための編集済み例題。"},structure,gap,order,buildSession,shuffled};
 })();
