@@ -1,0 +1,14 @@
+PASS: challenge bank, vocabulary support, answer uniqueness, and mixed five-question sessions validated.
+PASS: 7200 generated sentences validated.
+PASS: discovery flow and SVC+M discovery validated.
+PASS: unified icon sprite contains 21 symbols; no active legacy icon references or placeholder glyph icons.
+PASS: 36 service-worker resources and HTML local references exist.
+PASS: 15 discovery-table slots, exception links, focused practice launch validated.
+PASS: 96 phonics UI ids resolved; service-worker assets present.
+PASS: 15 phonics discovery stages, 85 practice words, families validated.
+PASS: 11793 generated parts have POS labels; pattern/UNKNOWN hints removed; word hint renders POS.
+PASS: adaptive practice weighting and mastery labels validated.
+PASS: v1.0.10 release contract and 10 critical visual assets validated.
+PASS: S/V/O/C/M role guide structure and examples validated.
+PASS: school vocabulary scope maps 85 words; term pools 32 -> 68 -> 81 -> 85 -> 85 -> 85.
+PASS: 110 static UI ids resolved; no duplicate ids; CSS braces balanced.

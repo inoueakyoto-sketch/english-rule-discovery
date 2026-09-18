@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<meta content="#f7f8f6" name="theme-color"/>
+<meta content="#f7f4ed" name="theme-color"/>
 <meta content="英単語の読み方を、音とつづりのパターンから発見する中学生向けコース。" name="description"/>
 <title>DISCOVERY｜単語の読みを発見</title>
 <link href="./manifest.webmanifest" rel="manifest"/>
@@ -16,11 +16,11 @@
 <div aria-hidden="true" class="ambient ambient-two"></div>
 <header class="app-header mock-app-header phonics-mock-header">
 <div class="header-left">
-<button aria-label="WORD CODEホームへ戻る" class="header-round-button hidden" id="phonicsHomeBtn" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg></button>
-<a aria-label="アプリホームへ戻る" class="header-round-button" href="./index.html" id="phonicsAppHomeLink"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg></a>
+<button aria-label="WORD CODEホームへ戻る" class="header-round-button hidden" id="phonicsHomeBtn" type="button"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-arrow-left"></use></svg></button>
+<a aria-label="アプリホームへ戻る" class="header-round-button" href="./index.html" id="phonicsAppHomeLink"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-arrow-left"></use></svg></a>
 </div>
 <div class="header-message"><small>DISCOVERY 02</small><strong>WORD CODE</strong></div>
-<div class="header-actions"><span aria-hidden="true" class="header-sound-mark">◌</span></div>
+<div class="header-actions"><span aria-hidden="true" class="header-sound-mark"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-headphones"></use></svg></span></div>
 </header>
 <main class="shell phonics-shell">
 <section aria-label="コース切り替え" class="phonics-course-switcher">
@@ -52,7 +52,7 @@
 <article><span>04</span><b>試す</b><small>初見の語で確かめる</small></article>
 </div>
 <div class="phonics-audio-note"><b>音が基準</b><span>カタカナ表記は目安です。スピーカーの音を正解として使います。</span></div>
-<button class="primary-button full-button" id="phonicsStartBtn" type="button">このコースを始める <span>→</span></button>
+<button class="primary-button full-button" id="phonicsStartBtn" type="button">このコースを始める <span><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-arrow-right"></use></svg></span></button>
 </section>
 <section class="phonics-card hidden" id="phonicsHomeCard"><div aria-hidden="true" class="phonics-home-art"></div>
 <div class="phonics-home-head"><span class="section-kicker">WORD CODE</span><h1>今日は、どの発見をする？</h1><p>新しい音の手がかりを探す。見つけた規則を使う。わからなくなったら発見表に戻る。</p></div>
@@ -65,34 +65,49 @@
   </div>
 </div>
 <div class="mode-stack">
-<button class="mode-card phonics-mode-discover" id="phonicsDiscoverBtn" type="button"><span class="mode-index">01</span><span class="mode-copy"><b id="phonicsDiscoverTitle">読み方を発見する</b><small id="phonicsDiscoverText">似た単語を聞き比べて、次のパターンを見つける。</small></span><span class="mode-arrow">→</span></button>
-<button class="mode-card phonics-mode-practice" id="phonicsPracticeBtn" type="button"><span class="mode-index">02</span><span class="mode-copy"><b>5問だけ音を読む</b><small>発見済みのパターンだけ。苦手・久しぶりを少し多めに。</small></span><span class="mode-arrow">→</span></button>
-<button class="mode-card phonics-mode-memory" id="phonicsMemoryBtn" type="button"><span class="mode-index">03</span><span class="mode-copy"><b>5語だけ覚える</b><small>つづり → 音 → 意味をつないで、学校の単語暗記につなげる。</small></span><span class="mode-arrow">→</span></button>
-<button class="mode-card phonics-mode-map" id="phonicsMapBtn" type="button"><span class="mode-index">04</span><span class="mode-copy"><b>音の発見表を見る</b><small>発見した規則だけが埋まる。例外もあとから同じ表に加わる。</small></span><span class="mode-arrow">→</span></button>
+<button class="mode-card phonics-mode-discover" id="phonicsDiscoverBtn" type="button"><span class="mode-index">01</span><span class="mode-copy"><b id="phonicsDiscoverTitle">読み方を発見する</b><small id="phonicsDiscoverText">似た単語を聞き比べて、次のパターンを見つける。</small></span><span class="mode-arrow"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-chevron-right"></use></svg></span></button>
+<button class="mode-card phonics-mode-practice" id="phonicsPracticeBtn" type="button"><span class="mode-index">02</span><span class="mode-copy"><b>5問だけ音を読む</b><small>発見済みのパターンだけ。苦手・久しぶりを少し多めに。</small></span><span class="mode-arrow"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-chevron-right"></use></svg></span></button>
+<button class="mode-card phonics-mode-memory" id="phonicsMemoryBtn" type="button"><span class="mode-index">03</span><span class="mode-copy"><b>5語だけ覚える</b><small>つづり → 音 → 意味をつないで、学校の単語暗記につなげる。</small></span><span class="mode-arrow"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-chevron-right"></use></svg></span></button>
+<button class="mode-card phonics-mode-map" id="phonicsMapBtn" type="button"><span class="mode-index">04</span><span class="mode-copy"><b>音の発見表を見る</b><small>発見した規則だけが埋まる。例外もあとから同じ表に加わる。</small></span><span class="mode-arrow"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-chevron-right"></use></svg></span></button>
 </div>
 <div class="phonics-mastery-panel"><div class="mastery-head"><span>今の手ごたえ</span><small>音のパターンごとに表示</small></div><div class="mastery-list" id="phonicsMasteryList"></div></div>
 </section>
 <section class="phonics-card hidden" id="phonicsDiscoverCard">
+<div class="sound-mode-tabs" aria-label="音の発見ステップ"><span class="active">音とつづり</span><span>聞いてみよう</span><span>声に出そう</span></div>
 <div class="phonics-question-head"><div><span class="section-kicker" id="phonicsStageCode">SOUND 01</span><h1 id="phonicsStageTitle">読み方を比べる</h1><p id="phonicsStageLead"></p></div><span class="phonics-counter" id="phonicsStageCounter">1 / 10</span></div>
+<div class="phonics-pattern-summary" id="phonicsPatternSummary"></div>
 <div class="phonics-instruction"><span>LISTEN &amp; COMPARE</span><b>単語を押して音を聞く。共通しているところを探す。</b></div>
 <div class="phonics-word-grid" id="phonicsExampleGrid"></div>
 <div class="phonics-question-box"><small>YOUR GUESS</small><b id="phonicsGuessPrompt">何が読みの手がかりになっていそう？</b><div class="phonics-guess-options" id="phonicsGuessOptions"></div></div>
 </section>
 <section class="phonics-card phonics-reveal-card hidden" id="phonicsRevealCard"><div aria-hidden="true" class="discovery-orbit"><span></span><span></span><span></span></div>
 <div class="phonics-reveal-head"><span class="section-kicker">DISCOVERED</span><span class="phonics-pattern-pill" id="phonicsRevealCode"></span></div>
-<div class="phonics-reveal-mark">↗</div>
+<div class="phonics-reveal-mark"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-spark"></use></svg></div>
 <h1 id="phonicsRevealTitle"></h1>
 <div class="phonics-rule-reveal" id="phonicsRevealRule"></div>
 <div class="phonics-contrast-area" id="phonicsContrastArea"></div>
-<div class="phonics-probe-box"><span>TRY A NEW WORD</span><p>まだ音を聞かずに、今見つけた手がかりで読んでみる。</p><div class="phonics-probe-word" id="phonicsProbeWord"></div><button class="phonics-audio-primary" id="phonicsProbeAudioBtn" type="button"><span class="speaker-icon">▶</span><span>音を確かめる</span></button><p class="phonics-probe-prompt" id="phonicsProbePrompt"></p></div>
-<button class="primary-button full-button" disabled="" id="phonicsRevealNextBtn" type="button">次へ <span>→</span></button>
+<div class="phonics-probe-box"><span>TRY A NEW WORD</span><p>まだ音を聞かずに、今見つけた手がかりで読んでみる。</p><div class="phonics-probe-word" id="phonicsProbeWord"></div><button class="phonics-audio-primary" id="phonicsProbeAudioBtn" type="button"><span class="speaker-icon"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-speaker"></use></svg></span><span>音を確かめる</span></button><p class="phonics-probe-prompt" id="phonicsProbePrompt"></p></div>
+<button class="primary-button full-button" disabled="" id="phonicsRevealNextBtn" type="button">次へ <span><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-arrow-right"></use></svg></span></button>
 </section>
 <section class="phonics-card hidden" id="phonicsMapCard">
 <div class="phonics-home-head"><span class="section-kicker">SOUND DISCOVERY TABLE</span><h1>音の発見表</h1><p>見つけた規則だけが少しずつ埋まる。まだ知らないところは、答えを先に見せず「？」のまま残します。</p></div>
-<div class="sound-table-summary"><div><small>FOUND</small><strong id="phonicsTableFound">0</strong></div><span>/</span><div><small>TABLE</small><strong id="phonicsTableTotal">0</strong></div><p id="phonicsTableHint">発見した行を押すと、音を聞いたり、その規則だけを練習できます。</p></div>
-<div aria-label="音の発見表" class="sound-discovery-table" id="phonicsSoundTable"></div>
-<div class="sound-table-divider"><span>DISCOVERY LOG</span><b>発見した順に、詳しく振り返る</b></div>
-<div class="phonics-map-list" id="phonicsMapList"></div>
+<div class="sound-table-summary"><div><small>FOUND</small><strong id="phonicsTableFound">0</strong></div><span>/</span><div><small>TABLE</small><strong id="phonicsTableTotal">0</strong></div><p id="phonicsTableHint">見つけた音を一覧で確認できます。</p></div>
+<div class="sound-table-tabs" aria-label="発見表の表示" role="tablist">
+  <button class="active" id="soundFilterAll" type="button">すべて</button>
+  <button id="soundFilterFound" type="button">発見済み</button>
+  <button id="soundFilterUnknown" type="button">まだ未知</button>
+</div>
+<div aria-label="音の発見表" class="sound-discovery-table compact-table" id="phonicsSoundTable"></div>
+<div class="sound-table-selection" id="soundTableSelection">
+  <div><small>SELECTED</small><b id="soundSelectedLabel">発見済みの行を選ぶ</b></div>
+  <button aria-label="選んだ音を聞く" class="sound-selected-audio" disabled id="soundSelectedAudio" type="button"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-speaker"></use></svg><span class="sr-only">音を聞く</span></button>
+  <button class="phonics-log-practice" disabled id="soundSelectedPractice" type="button">この音を5問</button>
+</div>
+<button class="sound-log-toggle" id="phonicsLogToggleBtn" type="button">詳しい発見記録を見る <span class="log-chevron"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-chevron-right"></use></svg></span></button>
+<div class="sound-log-wrap hidden" id="phonicsLogWrap">
+  <div class="sound-table-divider"><span>DISCOVERY LOG</span><b>発見した順に、詳しく振り返る</b></div>
+  <div class="phonics-map-list" id="phonicsMapList"></div>
+</div>
 <button class="text-button full-button" id="phonicsMapHomeBtn" type="button">ホームへ戻る</button>
 </section>
 <section class="phonics-card hidden" id="phonicsPracticeCard">
@@ -104,21 +119,21 @@
 </section>
 <section class="phonics-card hidden" id="phonicsPracticeFeedbackCard">
 <span class="section-kicker" id="phonicsFeedbackKicker">CHECK</span>
-<div class="phonics-reveal-mark" id="phonicsFeedbackMark">✓</div>
+<div class="phonics-reveal-mark" id="phonicsFeedbackMark"><svg aria-hidden="true" class="qd-icon" viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-check"></use></svg></div>
 <h1 id="phonicsFeedbackTitle"></h1>
 <div class="phonics-rule-reveal" id="phonicsFeedbackRule"></div>
-<button class="phonics-audio-primary" id="phonicsFeedbackAudioBtn" type="button"><span class="speaker-icon">▶</span><span>実際の音を聞く</span></button>
+<button class="phonics-audio-primary" id="phonicsFeedbackAudioBtn" type="button"><span class="speaker-icon"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-speaker"></use></svg></span><span>実際の音を聞く</span></button>
 <button class="primary-button full-button" id="phonicsPracticeNextBtn" type="button">次の単語</button>
 </section>
 <section class="phonics-card hidden" id="phonicsMemoryCard">
 <div class="phonics-question-head"><div><span class="section-kicker">WORD MEMORY · 5</span><h1>読める音から、意味につなぐ。</h1><p>単語を見て先に読んでみる。音で確かめてから、意味を選びます。</p></div><span class="phonics-counter" id="phonicsMemoryCounter">1 / 5</span></div>
 <div class="practice-progress" id="phonicsMemoryDots"></div>
-<div class="phonics-practice-stage phonics-memory-stage"><span class="phonics-focus-label" id="phonicsMemoryPattern">PATTERN</span><div class="phonics-big-word" id="phonicsMemoryWord"></div><button class="phonics-audio-primary" id="phonicsMemoryAudioBtn" type="button"><span class="speaker-icon">▶</span><span>先に読んでから、音を聞く</span></button></div>
+<div class="phonics-practice-stage phonics-memory-stage"><span class="phonics-focus-label" id="phonicsMemoryPattern">PATTERN</span><div class="phonics-big-word" id="phonicsMemoryWord"></div><button class="phonics-audio-primary" id="phonicsMemoryAudioBtn" type="button"><span class="speaker-icon"><svg aria-hidden="true" class="qd-icon " viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-speaker"></use></svg></span><span>先に読んでから、音を聞く</span></button></div>
 <div class="phonics-memory-meaning-area hidden" id="phonicsMemoryMeaningArea"><span>MEANING</span><b>この単語の意味は？</b><div class="phonics-memory-options" id="phonicsMemoryOptions"></div></div>
 </section>
 <section class="phonics-card hidden" id="phonicsMemoryFeedbackCard">
 <span class="section-kicker" id="phonicsMemoryFeedbackKicker">WORD LINK</span>
-<div class="phonics-reveal-mark" id="phonicsMemoryFeedbackMark">✓</div>
+<div class="phonics-reveal-mark" id="phonicsMemoryFeedbackMark"><svg aria-hidden="true" class="qd-icon" viewBox="0 0 24 24"><use href="./assets/qd-icons.svg#icon-check"></use></svg></div>
 <h1 id="phonicsMemoryFeedbackTitle"></h1>
 <div class="phonics-rule-reveal" id="phonicsMemoryFeedbackBody"></div>
 <button class="primary-button full-button" id="phonicsMemoryNextBtn" type="button">次の単語</button>
@@ -144,7 +159,7 @@
 <section class="principle-card phonics-bottom-principle"><span class="section-kicker">HOW IT WORKS</span><h2>読み方は「丸暗記」ではなく「予想できる手がかり」にする。</h2><p>規則は絶対ではありません。まずパターンで予想し、音で確かめ、例外も新しい気づきとして追加します。</p></section>
 </main>
 <div aria-live="polite" class="toast hidden" id="phonicsToast" role="status"></div>
-<footer><p>DISCOVERY / WORD CODE <span>v1.0.0</span></p></footer>
+<footer><p>DISCOVERY / WORD CODE <span>v1.0.10</span></p></footer>
 <script src="./data/phonics-bank.js"></script>
 <script src="./data/school-vocab.js"></script>
 <script src="./phonics-core.js"></script>

@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#f7f8f6",
-  "theme_color": "#f7f8f6",
+  "background_color": "#f7f4ed",
+  "theme_color": "#f7f4ed",
   "lang": "ja",
   "description": "『発見！』をテーマに、英文のしくみと英単語の読み方を自分で見つける中学生向け英語学習アプリ。",
   "icons": [

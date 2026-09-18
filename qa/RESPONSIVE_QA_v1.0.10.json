@@ -1,0 +1,146 @@
+[
+  {
+    "width": 320,
+    "screen": "home",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 321,
+    "tiny": 0
+  },
+  {
+    "width": 320,
+    "screen": "grammar",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 320,
+    "tiny": 0
+  },
+  {
+    "width": 320,
+    "screen": "word-discover",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 320,
+    "tiny": 0
+  },
+  {
+    "width": 320,
+    "screen": "challenge",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 320,
+    "tiny": 0
+  },
+  {
+    "width": 360,
+    "screen": "home",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 361,
+    "tiny": 0
+  },
+  {
+    "width": 360,
+    "screen": "grammar",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 360,
+    "tiny": 0
+  },
+  {
+    "width": 360,
+    "screen": "word-discover",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 360,
+    "tiny": 0
+  },
+  {
+    "width": 360,
+    "screen": "challenge",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 360,
+    "tiny": 0
+  },
+  {
+    "width": 390,
+    "screen": "home",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 391,
+    "tiny": 0
+  },
+  {
+    "width": 390,
+    "screen": "grammar",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 390,
+    "tiny": 0
+  },
+  {
+    "width": 390,
+    "screen": "word-discover",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 390,
+    "tiny": 0
+  },
+  {
+    "width": 390,
+    "screen": "challenge",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 390,
+    "tiny": 0
+  },
+  {
+    "width": 430,
+    "screen": "home",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 430,
+    "tiny": 0
+  },
+  {
+    "width": 430,
+    "screen": "grammar",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 430,
+    "tiny": 0
+  },
+  {
+    "width": 430,
+    "screen": "word-discover",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 430,
+    "tiny": 0
+  },
+  {
+    "width": 430,
+    "screen": "challenge",
+    "errors": [],
+    "console_errors": [],
+    "overflow": 0,
+    "scrollWidth": 430,
+    "tiny": 0
+  }
+]

@@ -1,81 +1,52 @@
-# DISCOVERY v1.0.0 QA REPORT
+# DISCOVERY v1.0.10 QA REPORT
 
 Release gate: **PASS**
 
-## Automated QA
+## Visual source
+- `design/VISUAL_SOURCE_OF_TRUTH.png` is the approved ivory / navy / gold mockup.
+- Final source comparison: `qa/SOURCE_VS_V110_FINAL.png`.
+- Actual 390×844 render board: `qa/VISUAL_QA_CONTACT_SHEET_v1.0.10_FINAL.png`.
 
-All release tests passed on 2026-09-18.
+## Layout-alignment changes
+- Home: greeting/scenery → two course cards → learning record → compact navigation strip.
+- Grammar: exercise hierarchy is progress → prompt → sentence → inline word lookup → scenic seam → discovery hint → role/action controls.
+- WORD CODE: discovery screen now uses three-step lesson tabs plus a compact spelling/sound/example summary before comparison words.
+- Challenge: intro uses text → landscape → action hierarchy; actual challenge exercises use light paper cards rather than a dark game-board surface.
+- No unrevealed grammar or phonics answer is exposed early.
 
-- 7,200 generated grammar sentences validated
-- discovery flow and SVC + M transition validated
-- adaptive practice weighting / mastery labels validated
-- POS labels validated on 11,795 generated sentence parts
-- pattern / UNKNOWN pre-answer hints absent
-- S / V / O / C / M ROLE LAB structure validated
-- challenge bank, vocabulary support, unique answers, mixed 5-question sessions validated
-- WORD CODE: 15 discovery stages / 85 practice words validated
-- sound-discovery table: 15 slots, exceptions, focused 5-question practice validated
-- school-term vocabulary scope: all 85 practice words mapped; available pool grows 32 → 68 → 81 → 85
-- HTML / JS UI id contract validated
-- all local HTML and service-worker resources exist
-- PWA v1.0.0 cache contract and critical visual assets validated
-- CSS brace structure validated
-- interactive UI smoke: grammar assignment → feedback, phonics discovery → reveal, sound table, school-scope controls validated
-
-Run again with:
-
-```bash
-for f in tests/test-*.js; do node "$f"; done
-```
-
-## Visual QA
-
-Viewport: **390 × 844** (smartphone-first)
-
-Rendered screens are stored in `qa/screens/` and summarized in `qa/VISUAL_QA_CONTACT_SHEET.png`.
-
-Checked screens:
-
+## Browser render QA
+390 × 844 Chromium renders validated:
 1. Home
-2. Grammar discovery
-3. DISCOVERED moment
-4. 5-question practice
+2. Grammar discovery with word lookup open
+3. DISCOVERED
+4. Practice
 5. WORD CODE home
-6. WORD CODE discovery (`game / take / name / cake`)
-7. Sound discovery table
-8. S/V/O/C/M ROLE LAB
+6. WORD CODE discovery
+7. Sound table
+8. ROLE LAB
 9. Challenge intro
+10. Challenge play
 
-### Source-of-truth comparison
+Primary 9-screen runtime set: page errors **0**, console errors **0**, unintended horizontal overflow **0**. Challenge play: page errors **0**, horizontal overflow **0**.
 
-Reference: `design/VISUAL_SOURCE_OF_TRUTH.png`
+## Responsive QA
+16 cases across 320 / 360 / 390 / 430 px for Home, Grammar, WORD discovery and Challenge: unintended overflow **0** and runtime errors **0**. After the final word-lookup tap-target correction, Grammar was rechecked at all four widths with undersized interactive targets **0**.
 
-- **Home:** course-card hierarchy, white canvas, navy/teal typography, scenic cards, restrained gold, action rows: PASS.
-- **Grammar discovery:** progress → question → sentence → word lookup → role dock hierarchy: PASS.
-- **DISCOVERED:** full-screen dark teal special moment with concentric rings and gold accent: PASS.
-- **Practice:** compact 5-step progress, insight card, sentence task, role dock: PASS.
-- **WORD CODE:** compare words → audio → common pattern guess: PASS.
-- **Sound table:** discovered rows + unrevealed `?` rows + focused-practice route: PASS.
-- **Challenge / ROLE LAB:** added after the original 6-screen mockup and rendered in the same design system: PASS.
+## Automated QA
+All project tests PASS, including:
+- 7,200 generated grammar sentences
+- discovery flow / SVC + M
+- adaptive practice
+- POS labels
+- ROLE LAB structure
+- challenge bank / mixed five-question sessions
+- 21-symbol unified icon system
+- WORD CODE 15 stages / 85 words
+- sound discovery table
+- school-term vocabulary scope
+- static UI contracts
+- local resource / service-worker contract
+- v1.0.10 release contract
 
-### Intentional product-correctness differences from mockup
-
-The mockup is the visual source of truth, but two details are intentionally not copied literally because they would reveal answers too early:
-
-- The grammar role dock shows only roles the learner has already discovered; undiscovered roles remain `?` instead of showing all S/V/O/C/M immediately.
-- Course-card artwork does not contain undiscovered grammar letters or phonics patterns. It uses symbolic path/sound imagery instead.
-
-These exceptions follow the higher-priority learning rule: **do not show the answer before the learner discovers it.**
-
-## Accessibility / interaction checks
-
-- mobile tap targets and bottom role dock sized for touch
-- `prefers-reduced-motion` respected
-- no punitive vibration on errors
-- word lookup shows Japanese meaning + part of speech and includes audio access
-- PWA icons and portrait orientation configured
-- localStorage failures are caught so the UI can still start in restricted contexts
-
-## Remaining environment note
-
-Actual iOS / Android SpeechSynthesis voice quality depends on the voices installed on the device. The app uses English (`en-US` preferred) browser speech and does not require an external audio service.
+## Remaining device-specific check
+SpeechSynthesis voice quality and iOS/Android browser chrome/Safe Area should still be checked once on physical devices after GitHub Pages deployment.
