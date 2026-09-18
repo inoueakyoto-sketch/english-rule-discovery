@@ -16,7 +16,7 @@
     homeCard:$("homeCard"),discoveryModeBtn:$("discoveryModeBtn"),discoveryModeTitle:$("discoveryModeTitle"),discoveryModeText:$("discoveryModeText"),practiceModeBtn:$("practiceModeBtn"),learningModeBtn:$("learningModeBtn"),challengeModeBtn:$("challengeModeBtn"),challengeModeText:$("challengeModeText"),challengeModeArrow:$("challengeModeArrow"),homeNotebookBtn:$("homeNotebookBtn"),masteryList:$("masteryList"),
     learningCard:$("learningCard"),learningSummary:$("learningSummary"),learningRoleTabs:$("learningRoleTabs"),learningRolePanel:$("learningRolePanel"),comparisonIntro:$("comparisonIntro"),comparisonRows:$("comparisonRows"),comparisonConclusion:$("comparisonConclusion"),
     challengeIntroCard:$("challengeIntroCard"),challengeStartBtn:$("challengeStartBtn"),challengePlayCard:$("challengePlayCard"),challengeTypeLabel:$("challengeTypeLabel"),challengeQuestionTitle:$("challengeQuestionTitle"),challengeQuestionLead:$("challengeQuestionLead"),challengeHintBtn:$("challengeHintBtn"),challengeHintBox:$("challengeHintBox"),challengeProgress:$("challengeProgress"),challengePrompt:$("challengePrompt"),challengeWork:$("challengeWork"),challengeControls:$("challengeControls"),challengeCheckBtn:$("challengeCheckBtn"),challengeFeedbackCard:$("challengeFeedbackCard"),challengeFeedbackKicker:$("challengeFeedbackKicker"),challengeFeedbackPattern:$("challengeFeedbackPattern"),challengeFeedbackMark:$("challengeFeedbackMark"),challengeFeedbackTitle:$("challengeFeedbackTitle"),challengeFeedbackAnswer:$("challengeFeedbackAnswer"),challengeFeedbackInsight:$("challengeFeedbackInsight"),challengeNextBtn:$("challengeNextBtn"),challengeCompleteCard:$("challengeCompleteCard"),challengeScore:$("challengeScore"),challengeCompleteTitle:$("challengeCompleteTitle"),challengeCompleteMessage:$("challengeCompleteMessage"),challengeResultList:$("challengeResultList"),challengeAgainBtn:$("challengeAgainBtn"),challengeHomeBtn:$("challengeHomeBtn"),
-    introCard:$("introCard"),startBtn:$("startBtn"),gameCard:$("gameCard"),questionKicker:$("questionKicker"),questionTitle:$("questionTitle"),questionNumber:$("questionNumber"),practiceProgress:$("practiceProgress"),
+    introCard:$("introCard"),startBtn:$("startBtn"),gameCard:$("gameCard"),questionKicker:$("questionKicker"),questionTitle:$("questionTitle"),questionNumber:$("questionNumber"),practiceProgress:$("practiceProgress"),discoveryStepBar:$("discoveryStepBar"),discoveryStepFill:$("discoveryStepFill"),discoveryStepText:$("discoveryStepText"),practiceInsight:$("practiceInsight"),
     wordHintBtn:$("wordHintBtn"),hintBox:$("hintBox"),sentenceArea:$("sentenceArea"),rolePalette:$("rolePalette"),selectedRoleText:$("selectedRoleText"),
     clearBtn:$("clearBtn"),checkBtn:$("checkBtn"),feedbackCard:$("feedbackCard"),feedbackIcon:$("feedbackIcon"),feedbackKicker:$("feedbackKicker"),feedbackPattern:$("feedbackPattern"),feedbackTitle:$("feedbackTitle"),feedbackBody:$("feedbackBody"),
     answerStrip:$("answerStrip"),reviewRetryBtn:$("reviewRetryBtn"),nextBtn:$("nextBtn"),completeCard:$("completeCard"),challengeFromCompleteBtn:$("challengeFromCompleteBtn"),continueMixedBtn:$("continueMixedBtn"),
@@ -26,7 +26,7 @@
   const defaultState=()=>({
     grade:1,term:1,hints:true,started:false,stageIndex:0,phase:"practice",
     currentPatternCorrect:0,successCount:0,attemptCount:0,streak:0,bestStreak:0,completed:false,
-    practiceStats:{},challengeBest:0,challengeRuns:0
+    practiceStats:{},challengeBest:0,challengeRuns:0,studyDays:[]
   });
 
   let state=loadState();
@@ -45,7 +45,10 @@
       return merged;
     }catch(e){return defaultState();}
   }
-  function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+  function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
+  function dayKey(ts=Date.now()){const d=new Date(ts);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+  function recordStudyDay(){const days=new Set(Array.isArray(state.studyDays)?state.studyDays:[]);days.add(dayKey());state.studyDays=[...days].sort().slice(-60);}
+  function dayStreak(){const days=new Set(Array.isArray(state.studyDays)?state.studyDays:[]);let n=0,d=new Date();for(;;){const k=dayKey(d.getTime());if(days.has(k)){n++;d.setDate(d.getDate()-1);continue;}if(n===0){d.setDate(d.getDate()-1);const y=dayKey(d.getTime());if(days.has(y)){n++;d.setDate(d.getDate()-1);continue;}}break;}return n;}
   function scopeKey(){return C.levelKey(state.grade,state.term);}
   function currentStageMax(){return state.completed?C.STAGES.length-1:Math.max(0,state.stageIndex);}
   function discoveredStages(){return C.STAGES.slice(0,currentStageMax()+1);}
@@ -65,12 +68,27 @@
   }
 
   function refreshHeader(){
+    const header=document.querySelector(".header-message");
+    if(header){
+      const small=header.querySelector("small"),strong=header.querySelector("strong");
+      const labels={
+        home:["今日も、","ことばの中に発見を。"],onboarding:["今日も、","ことばの中に発見を。"],
+        discovery:["DISCOVERY 01","文のしくみを見つけよう"],practice:["PRACTICE","5問だけ練習する"],
+        learning:["DISCOVERY LAB","S・V・O・C・Mを学ぶ"],
+        challenge:["CHALLENGE","難問にチャレンジ"],"challenge-intro":["CHALLENGE","難問にチャレンジ"],
+        "challenge-feedback":["CHALLENGE","見つけたしくみを確認"],"challenge-summary":["CHALLENGE","結果を振り返る"],
+        complete:["DISCOVERED","見つけたしくみをつなぐ"],"practice-summary":["PRACTICE","今日の5問を振り返る"]
+      };
+      const pair=labels[screenMode]||["QUIET DISCOVERY","英語のしくみ発見"];
+      if(small) small.textContent=pair[0]; if(strong) strong.textContent=pair[1];
+    }
     els.scopeText.textContent=`中${state.grade}・${state.term}学期まで`;
     els.discoveredText.textContent=discoveredLabels();
     els.successCount.textContent=state.successCount;
-    els.streakCount.textContent=state.streak||0;
+    els.streakCount.textContent=screenMode==="home"?dayStreak():(state.streak||0);
     els.gradeSelect.value=String(state.grade);els.termSelect.value=String(state.term);els.hintToggle.checked=!!state.hints;
     els.homeBtn.classList.toggle("hidden",!state.started||screenMode==="home");
+    els.settingsBtn.classList.toggle("hidden",screenMode!=="home"&&screenMode!=="onboarding");
     renderRuleMap();
     if(screenMode==="home") renderHome();
   }
@@ -156,7 +174,7 @@
 
   function renderLearningTabs(){
     els.learningRoleTabs.innerHTML="";
-    ["S","V","O","C"].forEach(role=>{
+    ["S","V","O","C","M"].forEach(role=>{
       const data=G.roles[role],b=document.createElement("button");b.type="button";b.role="tab";b.className=`learning-tab ${roleCss(role)}${role===learningRole?" active":""}`;
       b.setAttribute("aria-selected",String(role===learningRole));b.innerHTML=`<strong>${role}</strong><span>${escapeHtml(data.name)}</span>`;
       b.addEventListener("click",()=>{learningRole=role;renderLearningRole();haptic("tap");});els.learningRoleTabs.appendChild(b);
@@ -225,9 +243,37 @@
     if(restoreFocus) els.notebookBtn.focus();
   }
 
+  function applyLocalQAScenario(){
+    const host=location.hostname,forced=window.__QA_SCENARIO||"";
+    if(!forced&&location.protocol!=="file:"&&host!=="localhost"&&host!=="127.0.0.1") return false;
+    const qa=forced||new URLSearchParams(location.search).get("qa");
+    if(!qa) return false;
+    state={...defaultState(),...state,started:true,grade:1,term:2,hints:true,successCount:12,attemptCount:18,studyDays:[dayKey()]};
+    if(qa==="home"){state.stageIndex=3;state.phase="practice";showHome();return true;}
+    if(qa==="grammar"){
+      state.stageIndex=2;state.phase="practice";screenMode="discovery";hideMainCards();show(els.gameCard);
+      sentence=C.generateSentence("SVC",scopeKey(),()=>0);assignments=Array(sentence.parts.length).fill(null);selectedRole="S";
+      renderQuestion(false);renderPalette();renderSentence();renderHints();show(els.hintBox);els.wordHintBtn.setAttribute("aria-expanded","true");updateCheck();refreshHeader();scrollTopSoft();return true;
+    }
+    if(qa==="practice"){
+      state.stageIndex=5;state.completed=true;screenMode="practice";practiceSession={results:[{pattern:"SV",label:"SV",correct:true},{pattern:"SVC",label:"SVC",correct:true}],correct:2,usedPatterns:["SV","SVC"],lastSentenceKey:null,retrying:false};
+      hideMainCards();show(els.gameCard);sentence=C.generateSentence("SVO",scopeKey(),()=>0);assignments=Array(sentence.parts.length).fill(null);selectedRole="S";
+      renderQuestion(false);renderPalette();renderSentence();renderHints();updateCheck();refreshHeader();scrollTopSoft();return true;
+    }
+    if(qa==="discovered"){
+      state.stageIndex=0;state.phase="practice";screenMode="discovery";sentence=C.generateSentence("SVC",scopeKey(),()=>0);assignments=sentence.parts.map(p=>p.role);
+      showDiscoveryFeedback(C.STAGES[1]);refreshHeader();scrollTopSoft();return true;
+    }
+    if(qa==="learning"){state.stageIndex=5;state.completed=true;showLearning();return true;}
+    if(qa==="challenge"){state.stageIndex=5;state.completed=true;showChallengeIntro();return true;}
+    return false;
+  }
+
   function init(){
     registerEvents();saveState();refreshHeader();
-    if(state.started) showHome(); else {hideMainCards();show(els.introCard);screenMode="onboarding";refreshHeader();}
+    if(!applyLocalQAScenario()){
+      if(state.started) showHome(); else {hideMainCards();show(els.introCard);screenMode="onboarding";refreshHeader();}
+    }
     if("serviceWorker" in navigator&&location.protocol!=="file:"){navigator.serviceWorker.register("./sw.js").catch(()=>{});}
   }
 
@@ -374,6 +420,7 @@
   function renderChallengeOrderOnly(item){els.challengeWork.innerHTML="";els.challengeControls.innerHTML="";renderChallengeOrder(item);}
 
   function submitChallengeAnswer(){
+    recordStudyDay();
     const item=currentChallengeItem();if(!item||!challengeSession) return;
     let correct=false;
     if(item.type==="structure") correct=item.parts.every((p,i)=>challengeAssignments[i]===p.role);
@@ -454,13 +501,18 @@
 
   function renderQuestion(retry=false){
     if(screenMode==="practice"){
+      hide(els.discoveryStepBar);
       const number=retry?Math.max(1,practiceSession.results.length):Math.min(PRACTICE_LENGTH,practiceSession.results.length+1);
       els.questionNumber.textContent=`Q ${number} / ${PRACTICE_LENGTH}`;
       els.questionTitle.textContent=retry?"同じ文を、もう一度見る":"見つけた規則を使ってみる";
       els.questionKicker.textContent=retry?"気づきを見たあとなら、見え方が変わっているかも。":"5問だけ。苦手な規則は少し多めに出ます。";
       renderPracticeProgress(retry);show(els.practiceProgress);
+      if(practiceSession.correct>=2)show(els.practiceInsight);else hide(els.practiceInsight);
     }else{
-      hide(els.practiceProgress);
+      hide(els.practiceProgress);hide(els.practiceInsight);show(els.discoveryStepBar);
+      const step=state.phase==="discovery"?3:Math.min(3,Math.max(1,Number(state.currentPatternCorrect||0)+1));
+      els.discoveryStepText.textContent=`${step} / 3`;
+      els.discoveryStepFill.style.width=`${Math.round(step/3*100)}%`;
       els.questionNumber.textContent=`Q ${String(state.attemptCount+1).padStart(2,"0")}`;
       els.questionTitle.textContent=state.phase==="discovery"?"いつも通り、分けてみる":"英文の役割を見つける";
       els.questionKicker.textContent=state.phase==="discovery"?"見慣れないところがあっても、今わかる範囲でOK。":"役割を選んで、英文のまとまりをタップ。";
@@ -480,9 +532,8 @@
   }
 
   function currentKnownRoles(){
-    if(screenMode==="practice") return C.knownRolesForStage(currentStageMax());
-    if(state.phase==="discovery") return C.discoveryRolesBefore(state.stageIndex+1);
-    return C.knownRolesForStage(state.stageIndex);
+    const known=screenMode==="practice"?C.knownRolesForStage(currentStageMax()):(state.phase==="discovery"?C.discoveryRolesBefore(state.stageIndex+1):C.knownRolesForStage(state.stageIndex));
+    const set=new Set(known);return ["S","V","O","C","M"].filter(r=>set.has(r));
   }
   function roleLabel(role){const labels={S:["S","主語"],V:["V","動詞"],O:["O","目的語"],C:["C","補語"],M:["M","修飾語"],"?":["?","まだ不明"]};return labels[role]||[role,""];}
   function renderPalette(){
@@ -503,12 +554,17 @@
     });
   }
   function renderHints(){
-    els.hintBox.innerHTML=sentence.parts.map(p=>`<div class="hint-row"><div class="hint-wordline"><strong>${escapeHtml(p.text)}</strong><span class="pos-badge">品詞：${escapeHtml(p.pos||"—")}</span></div><span class="hint-ja">${escapeHtml(p.ja)}</span></div>`).join("");
+    const start=Math.max(0,sentence.parts.findIndex(p=>p.role==="C"));
+    els.hintBox.innerHTML=`<div class="word-lookup-tabs" aria-label="意味を見る単語">${sentence.parts.map((p,i)=>`<button type="button" data-lookup="${i}" class="${i===start?"active":""}">${escapeHtml(p.text)}</button>`).join("")}</div><div class="word-lookup-detail" id="wordLookupDetail"></div>`;
+    const detail=els.hintBox.querySelector("#wordLookupDetail");
+    const select=i=>{const p=sentence.parts[i];els.hintBox.querySelectorAll("[data-lookup]").forEach(b=>b.classList.toggle("active",Number(b.dataset.lookup)===i));detail.innerHTML=`<div><strong>${escapeHtml(p.text)}</strong><button type="button" class="lookup-audio" aria-label="${escapeHtml(p.text)}の音を聞く">◖)))</button></div><b>${escapeHtml(p.ja)}</b><span class="pos-badge">品詞：${escapeHtml(p.pos||"—")}</span>`;detail.querySelector(".lookup-audio")?.addEventListener("click",()=>{if("speechSynthesis" in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(p.text);u.lang="en-US";u.rate=.78;speechSynthesis.speak(u);}haptic("tap");});};
+    els.hintBox.querySelectorAll("[data-lookup]").forEach(b=>b.addEventListener("click",()=>select(Number(b.dataset.lookup))));select(start);
     hide(els.hintBox);els.wordHintBtn.setAttribute("aria-expanded","false");if(state.hints) show(els.wordHintBtn);else hide(els.wordHintBtn);
   }
   function updateCheck(){els.checkBtn.disabled=assignments.some(x=>!x);}
 
   function submitAnswer(){
+    recordStudyDay();
     const correct=C.correctAssignments(sentence,assignments);
     if(screenMode==="practice") submitPracticeAnswer(correct); else submitDiscoveryAnswer(correct);
     saveState();refreshHeader();scrollTopSoft();

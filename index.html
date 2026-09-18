@@ -1,365 +1,315 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111a2b">
-  <meta name="description" content="英文の中から規則を少しずつ発見していく、中学生向け英語学習アプリ。">
-  <title>DISCOVERY｜英語のしくみ発見</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#f7f8f6" name="theme-color"/>
+<meta content="英文のしくみと英単語の読み方を、自分で規則を発見しながら学ぶ中学生向け英語学習アプリ。" name="description"/>
+<title>DISCOVERY｜英語のしくみ発見</title>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="./assets/app-icon-192.png" rel="icon" type="image/png"/>
+<link href="./styles.css" rel="stylesheet"/>
+<link href="./assets/app-icon-192.png" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/></head>
 <body>
-  <div class="ambient ambient-one" aria-hidden="true"></div>
-  <div class="ambient ambient-two" aria-hidden="true"></div>
-
-  <header class="app-header">
-    <div class="brand" aria-label="DISCOVERY 英語のしくみ発見">
-      <div class="brand-mark" aria-hidden="true">D</div>
-      <div class="brand-copy">
-        <strong>DISCOVERY</strong>
-        <span>英語のルールを見つける</span>
-      </div>
-    </div>
-    <div class="header-actions">
-      <button id="homeBtn" class="icon-button hidden" type="button" aria-label="ホームへ戻る">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-8.5Z"/></svg>
-      </button>
-      <button id="notebookBtn" class="notebook-button" type="button" aria-label="気づきノートを開く" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7.5A2.5 2.5 0 0 1 5 17.5v-13Z"/><path d="M8 8h7M8 12h7M8 16h4"/></svg>
-        <span>気づき</span>
-      </button>
-      <button id="settingsBtn" class="icon-button" type="button" aria-label="学習範囲を設定" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M8 14v6"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <main class="shell">
-    <section class="top-status" aria-label="学習状況">
-      <div class="scope-pill">
-        <span class="dot" aria-hidden="true"></span>
-        <span id="scopeText">中1・1学期まで</span>
-      </div>
-      <div class="streak-pill" title="連続正解">
-        <span class="streak-mark" aria-hidden="true">↗</span>
-        <span><b id="streakCount">0</b> STREAK</span>
-      </div>
-    </section>
-
-    <section class="rule-map-card" aria-label="発見した文のしくみ">
-      <div class="section-heading compact">
-        <div><span class="section-kicker">DISCOVERY MAP</span><h2>見つけたしくみ</h2></div>
-        <strong id="successCount" class="success-number">0</strong>
-      </div>
-      <div id="ruleMap" class="rule-map" aria-label="文型の進捗"></div>
-      <p id="discoveredText" class="sr-only">SV</p>
-    </section>
-
-    <section id="homeCard" class="home-card hidden">
-      <div class="home-intro">
-        <span class="section-kicker">DISCOVERY 01 · GRAMMAR CODE</span>
-        <h1>英文の中に、<br>隠れたしくみを見つける。</h1>
-        <p>S・V・O・C・Mを手がかりに、「あれ？」から規則を見つけます。覚える前に、自分で気づくコースです。</p>
-      </div>
-
-      <div class="course-switch-panel" aria-label="大きなコースを切り替える">
-        <div class="course-switch-card active"><small>DISCOVERY 01</small><b>文のしくみ</b></div>
-        <a class="course-switch-card phonics-link" href="./phonics.html"><small>DISCOVERY 02</small><b>単語の読みを発見 →</b></a>
-      </div>
-
-      <div class="mode-stack">
-        <button id="discoveryModeBtn" class="mode-card mode-discovery" type="button">
-          <span class="mode-index">01</span>
-          <span class="mode-copy"><b id="discoveryModeTitle">発見をつづける</b><small id="discoveryModeText">今までと少し違う英文から、次の規則を見つける。</small></span>
-          <span class="mode-arrow">→</span>
-        </button>
-        <button id="practiceModeBtn" class="mode-card mode-practice" type="button">
-          <span class="mode-index">02</span>
-          <span class="mode-copy"><b>5問だけ練習する</b><small>見つけた規則だけ。苦手・久しぶりを少し多めに。</small></span>
-          <span class="mode-arrow">→</span>
-        </button>
-        <button id="learningModeBtn" class="mode-card mode-learning" type="button">
-          <span class="mode-index">03</span>
-          <span class="mode-copy"><b>S・V・O・Cを学ぶ</b><small>それぞれの場所に、どんな単語・まとまりが入るのか整理する。</small></span>
-          <span class="mode-arrow">→</span>
-        </button>
-        <button id="challengeModeBtn" class="mode-card mode-challenge" type="button">
-          <span class="mode-index">04</span>
-          <span class="mode-copy"><b>難問にチャレンジ</b><small id="challengeModeText">高校・大学レベルの英文を、中学で学んだ見方で攻略する。</small></span>
-          <span id="challengeModeArrow" class="mode-arrow">→</span>
-        </button>
-        <button id="homeNotebookBtn" class="mode-card mode-notebook" type="button">
-          <span class="mode-index">05</span>
-          <span class="mode-copy"><b>気づきを振り返る</b><small>わからなくなったら、自分で見つけたルールへ戻る。</small></span>
-          <span class="mode-arrow">→</span>
-        </button>
-      </div>
-
-      <div class="mastery-panel">
-        <div class="mastery-head"><span>今の手ごたえ</span><small>点数ではなく、使えた回数から表示</small></div>
-        <div id="masteryList" class="mastery-list"></div>
-      </div>
-    </section>
-
-    <section id="introCard" class="hero-card">
-      <div class="mission-label"><span>DISCOVERY 01</span><i></i><span>FIRST CLUE</span></div>
-      <div class="course-switch-panel intro-course-switch" aria-label="大きなコースを選ぶ">
-        <div class="course-switch-card active"><small>DISCOVERY 01</small><b>文のしくみ</b></div>
-        <a class="course-switch-card phonics-link" href="./phonics.html"><small>DISCOVERY 02</small><b>単語の読み →</b></a>
-      </div>
-      <h1>まず、<em>2つ</em>の<br>手がかりを見つける。</h1>
-      <p class="hero-lead">答えの名前は、あとからでいい。文の中から「だれが」と「どうする」を探すところから始めます。</p>
-
-      <div class="starter-roles">
-        <article class="starter-role role-surface-s">
-          <span class="role-symbol">S</span>
-          <div><b>だれが・なにが</b><small>主語 / Subject</small></div>
-        </article>
-        <article class="starter-role role-surface-v">
-          <span class="role-symbol">V</span>
-          <div><b>どうする・どんな状態</b><small>動詞 / Verb</small></div>
-        </article>
-      </div>
-
-      <div class="permission-note">
-        <span class="permission-icon">?</span>
-        <p>知らない形が出たら、<b>「？」でOK。</b><br>その「あれ？」から次のルールを見つけます。</p>
-      </div>
-      <button id="startBtn" class="primary-button hero-action" type="button">
-        <span>文のしくみコースをはじめる</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
-      </button>
-    </section>
-
-    <section id="gameCard" class="game-card hidden" aria-live="polite">
-      <div class="question-head">
-        <div>
-          <div class="question-meta"><span id="questionNumber">Q 01</span></div>
-          <h1 id="questionTitle">英文の役割を見つける</h1>
-          <p id="questionKicker">役割を選んで、英文のまとまりをタップ。</p>
-        </div>
-        <div class="question-tools">
-          <button id="quickNotebookBtn" class="mini-button" type="button" aria-label="気づきノートを開く">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7.5A2.5 2.5 0 0 1 5 17.5v-13Z"/><path d="M8 8h7M8 12h7M8 16h4"/></svg>
-            <span>気づき</span>
-          </button>
-          <button id="wordHintBtn" class="mini-button" type="button" aria-expanded="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M8.2 14.8A6 6 0 1 1 15.8 14.8C14.6 15.8 14 16.7 14 18h-4c0-1.3-.6-2.2-1.8-3.2Z"/></svg>
-            <span>単語</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="practiceProgress" class="practice-progress hidden" aria-label="5問練習の進み具合"></div>
-      <div id="hintBox" class="hint-box hidden"></div>
-
-      <div class="sentence-stage">
-        <div class="stage-grid" aria-hidden="true"></div>
-        <div id="sentenceArea" class="sentence-area" aria-label="英文"></div>
-      </div>
-
-      <div class="selected-role-line" aria-live="polite">
-        <span>SELECT</span>
-        <b id="selectedRoleText">S 主語</b>
-        <i></i>
-        <small>英文をタップ</small>
-      </div>
-
-      <div class="control-dock">
-        <div id="rolePalette" class="role-palette" aria-label="役割を選択"></div>
-        <div class="dock-actions">
-          <button id="clearBtn" class="text-button" type="button">クリア</button>
-          <button id="checkBtn" class="primary-button check-button" type="button" disabled>
-            <span>決定</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section id="feedbackCard" class="feedback-card hidden" aria-live="assertive">
-      <div class="feedback-topline"><span id="feedbackKicker">RESULT</span><span id="feedbackPattern" class="feedback-pattern"></span></div>
-      <div id="feedbackIcon" class="feedback-icon" aria-hidden="true">✓</div>
-      <h1 id="feedbackTitle"></h1>
-      <div id="feedbackBody" class="feedback-body"></div>
-      <div id="answerStrip" class="answer-strip"></div>
-      <button id="reviewRetryBtn" class="review-retry-button hidden" type="button">
-        <span>気づきを見て、同じ問題をもう一度</span><span aria-hidden="true">↺</span>
-      </button>
-      <button id="nextBtn" class="primary-button full-button" type="button">
-        <span>次へ</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
-      </button>
-    </section>
-
-    <section id="completeCard" class="complete-card hidden">
-      <div class="complete-mark" aria-hidden="true">✓</div>
-      <span class="section-kicker">DISCOVERY MAP COMPLETE</span>
-      <h1>バラバラだった英文が、<br>しくみとして見えてきた。</h1>
-      <p>5つの文型と、骨組みの外から情報を足すMまで発見しました。</p>
-      <div class="rule-summary"><span>SV</span><span>SVC</span><span>SVO</span><span>SVOO</span><span>SVOC</span><span>＋M</span></div>
-      <p class="complete-next">次は、疑問文・否定文・do / does・時制なども「今までとの違い」から発見できます。</p>
-      <div class="complete-actions">
-        <button id="challengeFromCompleteBtn" class="challenge-primary-button" type="button">高校・大学レベルに挑む <span>→</span></button>
-        <button id="continueMixedBtn" class="secondary-button full-button" type="button">5問だけ練習する</button>
-      </div>
-    </section>
-
-    <section id="practiceCompleteCard" class="practice-complete-card hidden">
-      <div class="practice-complete-top">
-        <div><span class="section-kicker">5 QUESTION PRACTICE</span><h1>今日の5問、ここまで。</h1></div>
-        <div id="practiceScore" class="practice-score">0<span>/5</span></div>
-      </div>
-      <p id="practiceCompleteMessage" class="practice-complete-message"></p>
-      <div id="practiceResultList" class="practice-result-list"></div>
-      <div class="practice-summary-actions">
-        <button id="practiceAgainBtn" class="primary-button full-button" type="button">もう5問</button>
-        <button id="practiceNotebookBtn" class="secondary-button full-button" type="button">気づきを確認する</button>
-        <button id="practiceHomeBtn" class="text-button full-button" type="button">ホームへ戻る</button>
-      </div>
-    </section>
-
-    <section id="learningCard" class="learning-card hidden">
-      <div class="learning-hero">
-        <span class="section-kicker">DISCOVERY LAB · ROLES</span>
-        <h1>S・V・O・Cには、<br>何が入る？</h1>
-        <p>ここは「説明を読みたいとき」の学びページ。<strong>S・V・O・Cは品詞の名前ではなく、文の中での仕事</strong>です。まず「役割の箱」と「入る材料」を分けて見ます。</p>
-      </div>
-
-      <div class="role-material-note">
-        <div><span>ROLE</span><b>文の役割 ＝ 箱</b><small>S / V / O / C</small></div>
-        <span class="role-material-arrow" aria-hidden="true">←</span>
-        <div><span>PART OF SPEECH</span><b>品詞 ＝ 入る材料</b><small>名詞 / 動詞 / 形容詞 …</small></div>
-      </div>
-
-      <div id="learningSummary" class="learning-summary" aria-label="S V O C の基本対応"></div>
-
-      <div class="learning-section-head">
-        <div><span class="section-kicker">PATTERN GUIDE</span><h2>役割を1つずつ見る</h2></div>
-        <small>タップして切り替え</small>
-      </div>
-      <div id="learningRoleTabs" class="learning-role-tabs" role="tablist" aria-label="学ぶ役割"></div>
-      <article id="learningRolePanel" class="learning-role-panel" aria-live="polite"></article>
-
-      <section class="same-word-card">
-        <span class="section-kicker">SAME WORD, DIFFERENT JOB</span>
-        <h2>同じ品詞でも、役割は変わる</h2>
-        <p id="comparisonIntro"></p>
-        <div id="comparisonRows" class="comparison-rows"></div>
-        <div id="comparisonConclusion" class="comparison-conclusion"></div>
-      </section>
-
-      <div class="learning-memory-card">
-        <span class="section-kicker">FIRST MEMORY</span>
-        <h2>まずは、この4つだけ。</h2>
-        <div class="memory-lines">
-          <p><b class="memory-role role-s-text">S</b><span>＝ 名詞の仲間</span></p>
-          <p><b class="memory-role role-v-text">V</b><span>＝ 動詞の仲間</span></p>
-          <p><b class="memory-role role-o-text">O</b><span>＝ 名詞の仲間</span></p>
-          <p><b class="memory-role role-c-text">C</b><span>＝ 名詞・形容詞の仲間</span></p>
-        </div>
-        <p class="learning-next-note">あとで不定詞・動名詞・that＋文などを習うと、「名詞の仲間」の形が増えていきます。</p>
-      </div>
-    </section>
-
-    <section id="challengeIntroCard" class="challenge-intro-card hidden">
-      <div class="challenge-hero-line"><span class="section-kicker">PROVE THE DISCOVERY</span><span class="challenge-level-chip">高校・大学レベル</span></div>
-      <h1>知らない英文でも、<br><em>骨組み</em>は見つけられる。</h1>
-      <p>難しい単語や、まだ習っていない文法が混ざっていても大丈夫。単語の意味は補助を使い、<strong>S・V・O・C・Mの見方</strong>で挑戦します。</p>
-      <div class="challenge-purpose-grid">
-        <article><span>01</span><b>文型を見抜く</b><small>長い文でも大きなかたまりに分ける</small></article>
-        <article><span>02</span><b>穴埋め</b><small>その場所に入る品詞・役割から考える</small></article>
-        <article><span>03</span><b>並び替え</b><small>S→V→O/Cの骨組みから順番を作る</small></article>
-      </div>
-      <div class="challenge-rule-note"><span>POINT</span><p><b>知らない単語があっても失格ではありません。</b>「単語」を押せば、日本語の意味と品詞を確認できます。</p></div>
-      <button id="challengeStartBtn" class="challenge-primary-button" type="button">5問チャレンジを始める <span>→</span></button>
-    </section>
-
-    <section id="challengePlayCard" class="challenge-play-card hidden">
-      <div class="challenge-play-head">
-        <div><span id="challengeTypeLabel" class="section-kicker">STRUCTURE</span><h1 id="challengeQuestionTitle">文型を見抜く</h1><p id="challengeQuestionLead"></p></div>
-        <button id="challengeHintBtn" class="mini-button challenge-word-button" type="button" aria-expanded="false"><span>単語</span></button>
-      </div>
-      <div id="challengeProgress" class="challenge-progress" aria-label="難問チャレンジの進み具合"></div>
-      <div id="challengeHintBox" class="hint-box challenge-hint-box hidden"></div>
-      <div id="challengePrompt" class="challenge-prompt"></div>
-      <div id="challengeWork" class="challenge-work"></div>
-      <div id="challengeControls" class="challenge-controls"></div>
-      <button id="challengeCheckBtn" class="challenge-primary-button" type="button" disabled>答えを決める <span>→</span></button>
-    </section>
-
-    <section id="challengeFeedbackCard" class="challenge-feedback-card hidden">
-      <div class="challenge-feedback-head"><span id="challengeFeedbackKicker" class="section-kicker">RESULT</span><span id="challengeFeedbackPattern" class="challenge-pattern-reveal"></span></div>
-      <div id="challengeFeedbackMark" class="challenge-feedback-mark">✓</div>
-      <h1 id="challengeFeedbackTitle"></h1>
-      <div id="challengeFeedbackAnswer" class="challenge-answer-reveal"></div>
-      <div id="challengeFeedbackInsight" class="challenge-insight"></div>
-      <button id="challengeNextBtn" class="challenge-primary-button" type="button">次の難問へ <span>→</span></button>
-    </section>
-
-    <section id="challengeCompleteCard" class="challenge-complete-card hidden">
-      <span class="section-kicker">CHALLENGE COMPLETE</span>
-      <div class="challenge-complete-score"><strong id="challengeScore">0</strong><span>/5</span></div>
-      <h1 id="challengeCompleteTitle">難しい英文にも、同じ骨組みがあった。</h1>
-      <p id="challengeCompleteMessage"></p>
-      <div id="challengeResultList" class="challenge-result-list"></div>
-      <div class="challenge-transfer-card"><span>WHY THIS MATTERS</span><b>文型が見えると、穴埋め・並び替えでも「どこに何が入るか」を考えられる。</b><p>単語を全部知らなくても、文の役割を手がかりに選択肢を減らせます。</p></div>
-      <div class="challenge-summary-actions"><button id="challengeAgainBtn" class="challenge-primary-button" type="button">もう一度挑戦</button><button id="challengeHomeBtn" class="text-button full-button" type="button">ホームへ戻る</button></div>
-    </section>
-
-    <section class="principle-card">
-      <span class="section-kicker">HOW IT WORKS</span>
-      <h2>未知は、一度に1つ。</h2>
-      <p>新しい文法に出会うときは、できるだけ知っている単語を使います。正解することより、「今までと違う」に自分で気づくことを大切にします。</p>
-    </section>
-  </main>
-
-
-  <div id="notebookBackdrop" class="sheet-backdrop hidden" aria-hidden="true"></div>
-  <section id="notebookPanel" class="notebook-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="notebookTitle">
-    <div class="sheet-handle" aria-hidden="true"></div>
-    <div class="sheet-heading">
-      <div><span class="section-kicker">DISCOVERY LOG</span><h2 id="notebookTitle">気づきノート</h2></div>
-      <button id="notebookCloseBtn" class="close-button" type="button" aria-label="閉じる">×</button>
-    </div>
-    <p class="sheet-lead notebook-lead">自分で見つけたルールの記録です。わからなくなったときは、ここから見つけた瞬間に戻れます。</p>
-    <div class="notebook-status"><span id="notebookCount">1 / 6</span><b>見つけた順に記録</b></div>
-    <div id="notebookList" class="notebook-list"></div>
-    <button id="notebookReturnBtn" class="primary-button full-button" type="button">問題に戻る</button>
-  </section>
-
-  <div id="settingsBackdrop" class="sheet-backdrop hidden" aria-hidden="true"></div>
-  <section id="settingsPanel" class="settings-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <div class="sheet-handle" aria-hidden="true"></div>
-    <div class="sheet-heading">
-      <div><span class="section-kicker">LEARNING RANGE</span><h2 id="settingsTitle">学習範囲</h2></div>
-      <button id="settingsCloseBtn" class="close-button" type="button" aria-label="閉じる">×</button>
-    </div>
-    <p class="sheet-lead">選んだ時期までの語彙を、問題づくりに使います。</p>
-    <div class="settings-grid">
-      <label>学年
+<div aria-hidden="true" class="ambient ambient-one"></div>
+<div aria-hidden="true" class="ambient ambient-two"></div>
+<header class="app-header mock-app-header">
+<div class="header-left">
+<button aria-label="ホームへ戻る" class="header-round-button hidden" id="homeBtn" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>
+</button>
+<button aria-expanded="false" aria-label="学習範囲を設定" class="header-round-button" id="settingsBtn" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg>
+</button>
+</div>
+<div aria-label="英語のしくみ発見" class="header-message">
+<small>今日も、</small><strong>ことばの中に発見を。</strong>
+</div>
+<div class="header-actions">
+<button aria-expanded="false" aria-label="気づきノートを開く" class="header-round-button" id="notebookBtn" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7.5A2.5 2.5 0 0 1 5 17.5v-13Z"></path><path d="M8 8h7M8 12h7M8 16h4"></path></svg>
+</button>
+</div>
+</header>
+<main class="shell">
+<section aria-label="学習状況" class="top-status">
+<div class="scope-pill">
+<span aria-hidden="true" class="dot"></span>
+<span id="scopeText">中1・1学期まで</span>
+</div>
+<div class="streak-pill" title="連続正解">
+<span aria-hidden="true" class="streak-mark">↗</span>
+<span><b id="streakCount">0</b> STREAK</span>
+</div>
+</section>
+<section aria-label="発見した文のしくみ" class="rule-map-card">
+<div class="section-heading compact">
+<div><span class="section-kicker">DISCOVERY MAP</span><h2>見つけたしくみ</h2></div>
+<strong class="success-number" id="successCount">0</strong>
+</div>
+<div aria-label="文型の進捗" class="rule-map" id="ruleMap"></div>
+<p class="sr-only" id="discoveredText">SV</p>
+</section>
+<section class="home-card mock-home-card hidden" id="homeCard">
+<div class="mock-home-title">
+<small>QUIET DISCOVERY</small>
+<h1>英語のしくみ発見</h1>
+<p>見つけるたびに、世界が広がっていく。</p>
+</div>
+<div aria-label="学ぶコース" class="mock-course-stack">
+<button class="mock-course-card mock-course-grammar" id="discoveryModeBtn" type="button">
+<span aria-hidden="true" class="mock-course-shade"></span>
+<span class="mock-course-copy"><small>DISCOVERY 01</small><b>文のしくみ</b><em id="discoveryModeTitle">発見をつづける</em><span id="discoveryModeText">英文の構造を見つけよう</span></span>
+<span aria-hidden="true" class="mock-course-arrow">›</span>
+</button>
+<a class="mock-course-card mock-course-phonics" href="./phonics.html">
+<span aria-hidden="true" class="mock-course-shade"></span>
+<span class="mock-course-copy"><small>DISCOVERY 02</small><b>WORD CODE</b><em>単語の読みを発見</em><span>ことばの音のルールを見つけよう</span></span>
+<span aria-hidden="true" class="mock-course-arrow">›</span>
+</a>
+</div>
+<div class="mock-home-actions">
+<button class="mock-action-row" id="practiceModeBtn" type="button"><span class="mock-action-icon">5</span><span><b>5問だけ練習する</b><small>見つけたしくみを、短く使って定着</small></span><i>›</i></button>
+<button class="mock-action-row" id="homeNotebookBtn" type="button"><span class="mock-action-icon book-icon">◇</span><span><b>気づきを振り返る</b><small>自分で見つけたルールへいつでも戻る</small></span><i>›</i></button>
+<button class="mock-action-row" id="learningModeBtn" type="button"><span class="mock-action-icon">S</span><span><b>S・V・O・C・Mを学ぶ</b><small>役割に入る単語・品詞を整理する</small></span><i>›</i></button>
+<button class="mock-action-row" id="challengeModeBtn" type="button"><span class="mock-action-icon peak-icon">△</span><span><b>難問チャレンジ</b><small id="challengeModeText">高校・大学レベルにも同じ見方を使う</small></span><i id="challengeModeArrow">›</i></button>
+</div>
+<div class="mastery-panel mock-mastery-panel">
+<div class="mastery-head"><span>今の手ごたえ</span><small>点数ではなく、使えた回数から表示</small></div>
+<div class="mastery-list" id="masteryList"></div>
+</div>
+</section>
+<section class="hero-card mock-home-card mock-home-first" id="introCard">
+<div class="mock-home-title">
+<small>QUIET DISCOVERY</small>
+<h1>英語のしくみ発見</h1>
+<p>見つけるたびに、世界が広がっていく。</p>
+</div>
+<div aria-label="学ぶコース" class="mock-course-stack">
+<button class="mock-course-card mock-course-grammar" id="startBtn" type="button">
+<span aria-hidden="true" class="mock-course-shade"></span>
+<span class="mock-course-copy"><small>DISCOVERY 01</small><b>文のしくみ</b><em>最初の発見から始める</em><span>英文の構造を見つけよう</span></span>
+<span aria-hidden="true" class="mock-course-arrow">›</span>
+</button>
+<a class="mock-course-card mock-course-phonics" href="./phonics.html">
+<span aria-hidden="true" class="mock-course-shade"></span>
+<span class="mock-course-copy"><small>DISCOVERY 02</small><b>WORD CODE</b><em>単語の読みを発見</em><span>ことばの音のルールを見つけよう</span></span>
+<span aria-hidden="true" class="mock-course-arrow">›</span>
+</a>
+</div>
+<div aria-label="この先にできること" class="mock-home-actions mock-home-actions-preview">
+<div class="mock-action-row is-preview"><span class="mock-action-icon book-icon">◇</span><span><b>気づきを振り返る</b><small>発見したことを、自分の記録に残す</small></span><i>›</i></div>
+<div class="mock-action-row is-preview"><span class="mock-action-icon peak-icon">△</span><span><b>難問チャレンジ</b><small>見つけたしくみを難しい英文でも試す</small></span><i>›</i></div>
+</div>
+<div class="first-clue-note"><span>FIRST CLUE</span><p><b>最初は S と V だけ。</b> 知らない形に出会ったときの「あれ？」を、次の発見にします。</p></div>
+</section>
+<section aria-live="polite" class="game-card hidden" id="gameCard">
+<div class="discovery-stepbar" id="discoveryStepBar" aria-label="発見までの進み具合"><div><span id="discoveryStepFill"></span></div><b id="discoveryStepText">1 / 3</b></div>
+<div class="practice-insight hidden" id="practiceInsight"><span aria-hidden="true">⌁</span><div><b>見えてきた！</b><small>同じしくみが使えるよ。</small></div></div>
+<div class="question-head">
+<div>
+<div class="question-meta"><span id="questionNumber">Q 01</span></div>
+<h1 id="questionTitle">英文の役割を見つける</h1>
+<p id="questionKicker">役割を選んで、英文のまとまりをタップ。</p>
+</div>
+<div class="question-tools">
+<button aria-label="気づきノートを開く" class="mini-button" id="quickNotebookBtn" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7.5A2.5 2.5 0 0 1 5 17.5v-13Z"></path><path d="M8 8h7M8 12h7M8 16h4"></path></svg>
+<span>気づき</span>
+</button>
+<button aria-expanded="false" class="mini-button" id="wordHintBtn" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 18h6M10 22h4M8.2 14.8A6 6 0 1 1 15.8 14.8C14.6 15.8 14 16.7 14 18h-4c0-1.3-.6-2.2-1.8-3.2Z"></path></svg>
+<span>単語</span>
+</button>
+</div>
+</div>
+<div aria-label="5問練習の進み具合" class="practice-progress hidden" id="practiceProgress"></div>
+<div class="sentence-stage">
+<div aria-hidden="true" class="stage-grid"></div>
+<div aria-label="英文" class="sentence-area" id="sentenceArea"></div>
+<div class="hint-box hidden" id="hintBox"></div></div><div aria-hidden="true" class="game-landscape"></div>
+<div aria-live="polite" class="selected-role-line">
+<span>SELECT</span>
+<b id="selectedRoleText">S 主語</b>
+<i></i>
+<small>英文をタップ</small>
+</div>
+<div class="control-dock">
+<div aria-label="役割を選択" class="role-palette" id="rolePalette"></div>
+<div class="dock-actions">
+<button class="text-button" id="clearBtn" type="button">クリア</button>
+<button class="primary-button check-button" disabled="" id="checkBtn" type="button">
+<span>決定</span><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"></path></svg>
+</button>
+</div>
+</div>
+</section>
+<section aria-live="assertive" class="feedback-card hidden" id="feedbackCard"><div aria-hidden="true" class="discovery-orbit"><span></span><span></span><span></span></div>
+<div class="feedback-topline"><span id="feedbackKicker">RESULT</span><span class="feedback-pattern" id="feedbackPattern"></span></div>
+<div aria-hidden="true" class="feedback-icon" id="feedbackIcon">✓</div>
+<h1 id="feedbackTitle"></h1>
+<div class="feedback-body" id="feedbackBody"></div>
+<div class="answer-strip" id="answerStrip"></div>
+<button class="review-retry-button hidden" id="reviewRetryBtn" type="button">
+<span>気づきを見て、同じ問題をもう一度</span><span aria-hidden="true">↺</span>
+</button>
+<button class="primary-button full-button" id="nextBtn" type="button">
+<span>次へ</span><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"></path></svg>
+</button>
+</section>
+<section class="complete-card hidden" id="completeCard">
+<div aria-hidden="true" class="complete-mark">✓</div>
+<span class="section-kicker">DISCOVERY MAP COMPLETE</span>
+<h1>バラバラだった英文が、<br/>しくみとして見えてきた。</h1>
+<p>5つの文型と、骨組みの外から情報を足すMまで発見しました。</p>
+<div class="rule-summary"><span>SV</span><span>SVC</span><span>SVO</span><span>SVOO</span><span>SVOC</span><span>＋M</span></div>
+<p class="complete-next">次は、疑問文・否定文・do / does・時制なども「今までとの違い」から発見できます。</p>
+<div class="complete-actions">
+<button class="challenge-primary-button" id="challengeFromCompleteBtn" type="button">高校・大学レベルに挑む <span>→</span></button>
+<button class="secondary-button full-button" id="continueMixedBtn" type="button">5問だけ練習する</button>
+</div>
+</section>
+<section class="practice-complete-card hidden" id="practiceCompleteCard">
+<div class="practice-complete-top">
+<div><span class="section-kicker">5 QUESTION PRACTICE</span><h1>今日の5問、ここまで。</h1></div>
+<div class="practice-score" id="practiceScore">0<span>/5</span></div>
+</div>
+<p class="practice-complete-message" id="practiceCompleteMessage"></p>
+<div class="practice-result-list" id="practiceResultList"></div>
+<div class="practice-summary-actions">
+<button class="primary-button full-button" id="practiceAgainBtn" type="button">もう5問</button>
+<button class="secondary-button full-button" id="practiceNotebookBtn" type="button">気づきを確認する</button>
+<button class="text-button full-button" id="practiceHomeBtn" type="button">ホームへ戻る</button>
+</div>
+</section>
+<section class="learning-card hidden" id="learningCard">
+<div class="learning-hero">
+<span class="section-kicker">DISCOVERY LAB · ROLES</span>
+<h1>S・V・O・Cには、<br/>何が入る？</h1>
+<p>ここは「説明を読みたいとき」の学びページ。<strong>S・V・O・Cは品詞の名前ではなく、文の中での仕事</strong>です。まず「役割の箱」と「入る材料」を分けて見ます。</p>
+</div>
+<div class="role-material-note">
+<div><span>ROLE</span><b>文の役割 ＝ 箱</b><small>S / V / O / C</small></div>
+<span aria-hidden="true" class="role-material-arrow">←</span>
+<div><span>PART OF SPEECH</span><b>品詞 ＝ 入る材料</b><small>名詞 / 動詞 / 形容詞 …</small></div>
+</div>
+<div aria-label="S V O C の基本対応" class="learning-summary" id="learningSummary"></div>
+<div class="learning-section-head">
+<div><span class="section-kicker">PATTERN GUIDE</span><h2>役割を1つずつ見る</h2></div>
+<small>タップして切り替え</small>
+</div>
+<div aria-label="学ぶ役割" class="learning-role-tabs" id="learningRoleTabs" role="tablist"></div>
+<article aria-live="polite" class="learning-role-panel" id="learningRolePanel"></article>
+<section class="same-word-card">
+<span class="section-kicker">SAME WORD, DIFFERENT JOB</span>
+<h2>同じ品詞でも、役割は変わる</h2>
+<p id="comparisonIntro"></p>
+<div class="comparison-rows" id="comparisonRows"></div>
+<div class="comparison-conclusion" id="comparisonConclusion"></div>
+</section>
+<div class="learning-memory-card">
+<span class="section-kicker">FIRST MEMORY</span>
+<h2>まずは、この4つだけ。</h2>
+<div class="memory-lines">
+<p><b class="memory-role role-s-text">S</b><span>＝ 名詞の仲間</span></p>
+<p><b class="memory-role role-v-text">V</b><span>＝ 動詞の仲間</span></p>
+<p><b class="memory-role role-o-text">O</b><span>＝ 名詞の仲間</span></p>
+<p><b class="memory-role role-c-text">C</b><span>＝ 名詞・形容詞の仲間</span></p>
+</div>
+<p class="learning-next-note">あとで不定詞・動名詞・that＋文などを習うと、「名詞の仲間」の形が増えていきます。</p>
+</div>
+</section>
+<section class="challenge-intro-card hidden" id="challengeIntroCard">
+<div class="challenge-hero-line"><span class="section-kicker">PROVE THE DISCOVERY</span><span class="challenge-level-chip">高校・大学レベル</span></div>
+<h1>知らない英文でも、<br/><em>骨組み</em>は見つけられる。</h1>
+<p>難しい単語や、まだ習っていない文法が混ざっていても大丈夫。単語の意味は補助を使い、<strong>S・V・O・C・Mの見方</strong>で挑戦します。</p>
+<div class="challenge-purpose-grid">
+<article><span>01</span><b>文型を見抜く</b><small>長い文でも大きなかたまりに分ける</small></article>
+<article><span>02</span><b>穴埋め</b><small>その場所に入る品詞・役割から考える</small></article>
+<article><span>03</span><b>並び替え</b><small>S→V→O/Cの骨組みから順番を作る</small></article>
+</div>
+<div class="challenge-rule-note"><span>POINT</span><p><b>知らない単語があっても失格ではありません。</b>「単語」を押せば、日本語の意味と品詞を確認できます。</p></div>
+<button class="challenge-primary-button" id="challengeStartBtn" type="button">5問チャレンジを始める <span>→</span></button>
+</section>
+<section class="challenge-play-card hidden" id="challengePlayCard">
+<div class="challenge-play-head">
+<div><span class="section-kicker" id="challengeTypeLabel">STRUCTURE</span><h1 id="challengeQuestionTitle">文型を見抜く</h1><p id="challengeQuestionLead"></p></div>
+<button aria-expanded="false" class="mini-button challenge-word-button" id="challengeHintBtn" type="button"><span>単語</span></button>
+</div>
+<div aria-label="難問チャレンジの進み具合" class="challenge-progress" id="challengeProgress"></div>
+<div class="hint-box challenge-hint-box hidden" id="challengeHintBox"></div>
+<div class="challenge-prompt" id="challengePrompt"></div>
+<div class="challenge-work" id="challengeWork"></div>
+<div class="challenge-controls" id="challengeControls"></div>
+<button class="challenge-primary-button" disabled="" id="challengeCheckBtn" type="button">答えを決める <span>→</span></button>
+</section>
+<section class="challenge-feedback-card hidden" id="challengeFeedbackCard">
+<div class="challenge-feedback-head"><span class="section-kicker" id="challengeFeedbackKicker">RESULT</span><span class="challenge-pattern-reveal" id="challengeFeedbackPattern"></span></div>
+<div class="challenge-feedback-mark" id="challengeFeedbackMark">✓</div>
+<h1 id="challengeFeedbackTitle"></h1>
+<div class="challenge-answer-reveal" id="challengeFeedbackAnswer"></div>
+<div class="challenge-insight" id="challengeFeedbackInsight"></div>
+<button class="challenge-primary-button" id="challengeNextBtn" type="button">次の難問へ <span>→</span></button>
+</section>
+<section class="challenge-complete-card hidden" id="challengeCompleteCard">
+<span class="section-kicker">CHALLENGE COMPLETE</span>
+<div class="challenge-complete-score"><strong id="challengeScore">0</strong><span>/5</span></div>
+<h1 id="challengeCompleteTitle">難しい英文にも、同じ骨組みがあった。</h1>
+<p id="challengeCompleteMessage"></p>
+<div class="challenge-result-list" id="challengeResultList"></div>
+<div class="challenge-transfer-card"><span>WHY THIS MATTERS</span><b>文型が見えると、穴埋め・並び替えでも「どこに何が入るか」を考えられる。</b><p>単語を全部知らなくても、文の役割を手がかりに選択肢を減らせます。</p></div>
+<div class="challenge-summary-actions"><button class="challenge-primary-button" id="challengeAgainBtn" type="button">もう一度挑戦</button><button class="text-button full-button" id="challengeHomeBtn" type="button">ホームへ戻る</button></div>
+</section>
+<section class="principle-card">
+<span class="section-kicker">HOW IT WORKS</span>
+<h2>未知は、一度に1つ。</h2>
+<p>新しい文法に出会うときは、できるだけ知っている単語を使います。正解することより、「今までと違う」に自分で気づくことを大切にします。</p>
+</section>
+</main>
+<div aria-hidden="true" class="sheet-backdrop hidden" id="notebookBackdrop"></div>
+<section aria-labelledby="notebookTitle" aria-modal="true" class="notebook-sheet hidden" id="notebookPanel" role="dialog">
+<div aria-hidden="true" class="sheet-handle"></div>
+<div class="sheet-heading">
+<div><span class="section-kicker">DISCOVERY LOG</span><h2 id="notebookTitle">気づきノート</h2></div>
+<button aria-label="閉じる" class="close-button" id="notebookCloseBtn" type="button">×</button>
+</div>
+<p class="sheet-lead notebook-lead">自分で見つけたルールの記録です。わからなくなったときは、ここから見つけた瞬間に戻れます。</p>
+<div class="notebook-status"><span id="notebookCount">1 / 6</span><b>見つけた順に記録</b></div>
+<div class="notebook-list" id="notebookList"></div>
+<button class="primary-button full-button" id="notebookReturnBtn" type="button">問題に戻る</button>
+</section>
+<div aria-hidden="true" class="sheet-backdrop hidden" id="settingsBackdrop"></div>
+<section aria-labelledby="settingsTitle" aria-modal="true" class="settings-sheet hidden" id="settingsPanel" role="dialog">
+<div aria-hidden="true" class="sheet-handle"></div>
+<div class="sheet-heading">
+<div><span class="section-kicker">LEARNING RANGE</span><h2 id="settingsTitle">学習範囲</h2></div>
+<button aria-label="閉じる" class="close-button" id="settingsCloseBtn" type="button">×</button>
+</div>
+<p class="sheet-lead">選んだ時期までの語彙を、問題づくりに使います。</p>
+<div class="settings-grid">
+<label>学年
         <select id="gradeSelect"><option value="1">中学1年</option><option value="2">中学2年</option></select>
-      </label>
-      <label>学期
+</label>
+<label>学期
         <select id="termSelect"><option value="1">1学期</option><option value="2">2学期</option><option value="3">3学期</option></select>
-      </label>
-    </div>
-    <label class="toggle-row">
-      <span><b>単語の日本語ヒント</b><small>分からない単語だけ確認できます</small></span>
-      <input id="hintToggle" type="checkbox" checked><i aria-hidden="true"></i>
-    </label>
-    <span class="data-chip">共通基礎語彙・試作</span>
-    <button id="applySettingsBtn" class="primary-button full-button" type="button">この範囲で学ぶ</button>
-    <button id="resetProgressBtn" class="reset-button" type="button">学習記録を最初から</button>
-    <p class="fine-print">現行版では学期別語彙は共通基礎の試作データです。教科書・Unit別データに差し替えられる構造にしています。</p>
-  </section>
-
-  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-
-  <footer><p>DISCOVERY <span>v0.2.2 sound-discovery-table candidate</span></p></footer>
-  <script src="./data/wordbank.js"></script>
-  <script src="./core.js"></script>
-  <script src="./data/role-guide.js"></script>
-  <script src="./data/challenge-bank.js"></script>
-  <script src="./app.js"></script>
+</label>
+</div>
+<label class="toggle-row">
+<span><b>単語の日本語ヒント</b><small>分からない単語だけ確認できます</small></span>
+<input checked="" id="hintToggle" type="checkbox"/><i aria-hidden="true"></i>
+</label>
+<span class="data-chip">共通基礎語彙・学期目安</span>
+<button class="primary-button full-button" id="applySettingsBtn" type="button">この範囲で学ぶ</button>
+<button class="reset-button" id="resetProgressBtn" type="button">学習記録を最初から</button>
+<p class="fine-print">学期は共通基礎語彙の目安です。教科書によって導入時期は異なります。</p>
+</section>
+<div aria-live="polite" class="toast hidden" id="toast" role="status"></div>
+<footer><p>DISCOVERY <span>v1.0.0</span></p></footer>
+<script src="./data/wordbank.js"></script>
+<script src="./core.js"></script>
+<script src="./data/role-guide.js"></script>
+<script src="./data/challenge-bank.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>

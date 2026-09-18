@@ -4,7 +4,8 @@
       {role:"S",name:"主語",formula:"名詞の仲間",question:"だれが・なにが"},
       {role:"V",name:"動詞",formula:"動詞の仲間",question:"どうする・どんな状態"},
       {role:"O",name:"目的語",formula:"名詞の仲間",question:"だれを・なにを"},
-      {role:"C",name:"補語",formula:"名詞・形容詞の仲間",question:"正体・状態を説明"}
+      {role:"C",name:"補語",formula:"名詞・形容詞の仲間",question:"正体・状態を説明"},
+      {role:"M",name:"修飾語",formula:"副詞・前置詞句など",question:"いつ・どこで・どのように"}
     ],
     roles:{
       S:{
@@ -46,6 +47,17 @@
           {label:"Oを説明するC",level:"基本",examples:["Ken","happy"],sentence:"We call him Ken.",focus:"Ken",note:"SVOCではCがOを説明する。him ＝ Ken。"},
           {label:"to不定詞",level:"あとで増える",examples:["to be a doctor"],sentence:"My dream is to be a doctor.",focus:"to be a doctor",note:"to＋動詞のまとまりが、Sの内容を説明するCになることもある。"}
         ]
+      },
+      M:{
+        name:"修飾語",english:"Modifier",question:"いつ・どこで・どのように",headline:"Mには「情報を足すことば・まとまり」が入る",description:"Mは、S・V・O・Cでできた骨組みに、時間・場所・様子・頻度などの情報を足す部分です。文型の5つの型には数えません。",tip:"Mか迷ったら、その部分をいったん外してみる。S・V・O・Cの骨組みが残るなら、Mの可能性が高い。Mは文末だけでなく、文頭やVの近くにも置かれます。",
+        patterns:[
+          {label:"副詞",level:"基本",examples:["today","usually","sometimes"],sentence:"She is happy today.",focus:"today",note:"時間・頻度・様子などを1語で足す。"},
+          {label:"前置詞＋名詞のまとまり",level:"基本",examples:["in the park","after school","on Sunday"],sentence:"I play soccer in the park.",focus:"in the park",note:"場所や時間を表すまとまり全体がMになる。"},
+          {label:"文頭に来るM",level:"基本",examples:["On Sunday","Sometimes"],sentence:"On Sunday, I play tennis.",focus:"On Sunday",note:"Mは文末だけではなく文頭にも置ける。"},
+          {label:"Vの近くに来るM",level:"基本",examples:["usually","often"],sentence:"I usually walk to school.",focus:"usually",note:"頻度を表す副詞は一般動詞の前など、文の途中に来ることもある。"},
+          {label:"to不定詞の副詞的用法",level:"あとで増える",examples:["to study English"],sentence:"I went to the library to study English.",focus:"to study English",note:"「〜するために」のように目的を足すまとまりもMとして働く。"},
+          {label:"節のまとまり",level:"あとで増える",examples:["when I got home","because it was raining"],sentence:"I studied when I got home.",focus:"when I got home",note:"文のようなまとまり全体が時間・理由などを足すこともある。"}
+        ]
       }
     },
     comparison:{
@@ -56,7 +68,7 @@
         {sentence:"I saw the teacher.",focus:"the teacher",role:"O",reason:"「だれを見た？」の答え"},
         {sentence:"He is a teacher.",focus:"a teacher",role:"C",reason:"He ＝ a teacher と説明"}
       ],
-      conclusion:"品詞は「材料の種類」。S・V・O・Cは「文の中での仕事」。この2つを分けると英文が整理しやすくなります。"
+      conclusion:"品詞は「材料の種類」。S・V・O・C・Mは「文の中での仕事」。この2つを分けると英文が整理しやすくなります。"
     }
   };
 })();

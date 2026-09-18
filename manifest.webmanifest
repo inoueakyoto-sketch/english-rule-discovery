@@ -1,18 +1,18 @@
 {
   "name": "DISCOVERY｜英語のしくみ発見",
   "short_name": "DISCOVERY",
+  "id": "./",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#edf1f3",
-  "theme_color": "#102126",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f8f6",
+  "theme_color": "#f7f8f6",
   "lang": "ja",
-  "description": "文法のしくみを発見するコースと、フォニックスの考え方で単語の読みを発見するWORD CODEコースを備えた中学生向け英語学習アプリ。",
+  "description": "『発見！』をテーマに、英文のしくみと英単語の読み方を自分で見つける中学生向け英語学習アプリ。",
   "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    {"src":"./assets/app-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./assets/app-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"},
+    {"src":"./assets/app-icon-1024.png","sizes":"1024x1024","type":"image/png","purpose":"any"}
   ]
 }

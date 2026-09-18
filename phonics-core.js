@@ -1,7 +1,7 @@
 (function(){
   const B=window.ED_PHONICS_BANK;
   if(!B) throw new Error("ED_PHONICS_BANK is required");
-  function defaultState(){return {started:false,stageIndex:0,practiceStats:{},vocabStats:{},bestPractice:0,practiceRuns:0,bestMemory:0,memoryRuns:0};}
+  function defaultState(){return {started:false,stageIndex:0,practiceStats:{},vocabStats:{},bestPractice:0,practiceRuns:0,bestMemory:0,memoryRuns:0,grade:1,term:1,studyDays:[]};}
   function statFor(state,id){return state.practiceStats[id]||{attempts:0,correct:0,wrong:0,lastSeen:0,lastResult:null};}
   function updateStat(state,id,correct){
     const p=statFor(state,id);state.practiceStats[id]={attempts:(p.attempts||0)+1,correct:(p.correct||0)+(correct?1:0),wrong:(p.wrong||0)+(correct?0:1),lastSeen:Date.now(),lastResult:correct?"correct":"wrong"};
